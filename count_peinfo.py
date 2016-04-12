@@ -6,8 +6,8 @@ from time import time
 from math import log
 import csv
 
+
 DLL_API_FEATURES = ["label", " slc.dll", " api-ms-win-core-errorhandling-l1-1-0.dll", " api-ms-win-core-libraryloader-l1-1-0.dll", " winsta.dll", " msvbvm60.dll", " secur32.dll", " mfc42u.dll", " userenv.dll", " setupapi.dll", " uxtheme.dll", " api-ms-win-security-base-l1-1-0.dll", " api-ms-win-core-processthreads-l1-1-0.dll", " powrprof.dll", " mfc42.dll", " api-ms-win-core-misc-l1-1-0.dll", " api-ms-win-core-profile-l1-1-0.dll", " api-ms-win-core-localregistry-l1-1-0.dll", " wbemcomn.dll", " oledlg.dll", " api-ms-win-core-sysinfo-l1-1-0.dll", " mswsock.dll", " ntdll.dll", "iswalpha", "SetClassLongA", "SetThreadUILanguage", "ConvertSidToStringSidW", "RegisterTraceGuidsW", "NtQueryValueKey", "CheckTokenMembership", "_wsetlocale", "UnregisterTraceGuids", "wcscat_s", "VerSetConditionMask", "RtlLengthSid", "memmove_s", "?what@exception@@UBEPBDXZ", "RtlCaptureContext", "ShellExecuteA", "RtlFreeHeap", "swprintf_s", "_ftol2", "AppendMenuA", "GetTraceEnableLevel", "wcscpy_s", "_CItan", "__wgetmainargs", "RevertToSelf", "ConvertStringSecurityDescriptorToSecurityDescriptorW", "RtlLookupFunctionEntry", "GetTraceLoggerHandle", "TraceMessage", "GetTraceEnableFlags", "RtlVirtualUnwind", "GetConsoleScreenBufferInfo", "SHBrowseForFolderA", "__C_specific_handler", "_fmode", "wcstol", "LookupAccountNameW", "NtDeviceIoControlFile", "_callnewh", "NtOpenFile", "vfwprintf", "__winitenv", "SHGetFileInfoA", "_commode", "wprintf", "RtlNtStatusToDosError"]
-LEN_FEATURES = len(DLL_API_FEATURES)
 
 
 # {"GetCurrentProcess": {"white": 10, "black": 5, "P2P-Worm": 3, "Backdoor": 6}}
@@ -99,10 +99,10 @@ def select(data, thresh, ratio):
     for i in data:
         if i[1]*i[2] == 0:
             if i[1] + i[2] > thresh:
-                result.append(i)
+                result.append(i[0])
         else:
             if i[3] > ratio:
-                result.append(i)
+                result.append(i[0])
     return result
 
 
@@ -111,29 +111,19 @@ def count_dll_api(table):
     cur.execute(sql_content)
     results = cur.fetchall()
     sample_count = 0
-    dlls = []
-    apis = []
     rows = []
     for result in results:
-        features = []
-        row = [0] * LEN_FEATURES
+        row = [0] * len(DLL_API_FEATURES)
         if result[1]:
             r0 = json.loads(result[1])
             if r0.values()[0][0].find(',') != -1 or r0.values()[-1][0].find(',') != -1:
                 continue
 
-            if table == "white_detail":
-                row[0] = 0
-            else:
-                row[0] = 1
+            row[0] = 0 if table == "white_detail" else 1
 
             sample_count += 1
             if sample_count > 1000:
                 break
-
-            for tmp_dll, tmp_apis in r0.iteritems():   # type of apis is list
-                apis.extend(tmp_apis)
-                dlls.append(tmp_dll)
 
             for tmp_dll, apis in r0.iteritems():   # type of apis is list
                 for api in apis:
@@ -142,8 +132,6 @@ def count_dll_api(table):
                         row[index] = 1
                     except ValueError:
                         continue
-                    # if api in DLL_API_FEATURES:
-                    #     features.append(api)
 
                 dll = tmp_dll.lower()
                 try:
@@ -151,8 +139,7 @@ def count_dll_api(table):
                     row[index] = 1
                 except ValueError:
                     continue
-                # if dll in DLL_API_FEATURES:
-                #     features.append(dll)
+
             rows.append(row)
     return rows
 
@@ -168,26 +155,22 @@ if __name__ == "__main__":
     print "cost time --> white_detail: %.2fs, VT_detail: %.2fs" % (time2 - time1, time3 - time2)
     dict_dll = combine(dict_white_dll, dict_black_dll)
     dict_api = combine(dict_white_api, dict_black_api)
-    result1 = calc_info(dict_dll)
-    result2 = calc_info(dict_api)
+    dll_info = calc_info(dict_dll)
+    api_info = calc_info(dict_api)
     # insert_db("dlls", "dll", dict_dll)
     # insert_db("apis", "api", dict_api)
-    ret1 = select(result1, 20, 0.6)
-    ret2 = select(result2, 100, 0.85)
+    dll_feature = select(dll_info, 20, 0.6)
+    api_feature = select(api_info, 100, 0.85)
 
-    feature = ""
-    for i in ret1 + ret2:
-        feature = feature + i[0] + "\n"
-    with open("/tmp/select_feature.txt", "w") as f:
-        f.write(feature)
+    DLL_API_FEATURES = ["lable"] + dll_feature + api_feature
 
-    # white_rows = count_dll_api("white_detail")
-    # black_rows = count_dll_api("VT_detail")
-    # rows = white_rows + black_rows
-    # csvfile = file('/root/sample_data.csv', 'wb')
-    # writer = csv.writer(csvfile)
-    # writer.writerow(DLL_API_FEATURES)
-    # writer.writerows(rows)
-    # csvfile.close()
+    white_rows = count_dll_api("white_detail")
+    black_rows = count_dll_api("VT_detail")
+    csvfile = file('/root/sample_data.csv', 'wb')
+    writer = csv.writer(csvfile)
+    writer.writerow(DLL_API_FEATURES)
+    writer.writerows(white_rows + black_rows)
+    csvfile.close()
+
     cur.close()
     conn.close()
