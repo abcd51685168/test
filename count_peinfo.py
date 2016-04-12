@@ -7,9 +7,10 @@ from math import log
 import csv
 
 
-DLL_API_FEATURES = ["label", " slc.dll", " api-ms-win-core-errorhandling-l1-1-0.dll", " api-ms-win-core-libraryloader-l1-1-0.dll", " winsta.dll", " msvbvm60.dll", " secur32.dll", " mfc42u.dll", " userenv.dll", " setupapi.dll", " uxtheme.dll", " api-ms-win-security-base-l1-1-0.dll", " api-ms-win-core-processthreads-l1-1-0.dll", " powrprof.dll", " mfc42.dll", " api-ms-win-core-misc-l1-1-0.dll", " api-ms-win-core-profile-l1-1-0.dll", " api-ms-win-core-localregistry-l1-1-0.dll", " wbemcomn.dll", " oledlg.dll", " api-ms-win-core-sysinfo-l1-1-0.dll", " mswsock.dll", " ntdll.dll", "iswalpha", "SetClassLongA", "SetThreadUILanguage", "ConvertSidToStringSidW", "RegisterTraceGuidsW", "NtQueryValueKey", "CheckTokenMembership", "_wsetlocale", "UnregisterTraceGuids", "wcscat_s", "VerSetConditionMask", "RtlLengthSid", "memmove_s", "?what@exception@@UBEPBDXZ", "RtlCaptureContext", "ShellExecuteA", "RtlFreeHeap", "swprintf_s", "_ftol2", "AppendMenuA", "GetTraceEnableLevel", "wcscpy_s", "_CItan", "__wgetmainargs", "RevertToSelf", "ConvertStringSecurityDescriptorToSecurityDescriptorW", "RtlLookupFunctionEntry", "GetTraceLoggerHandle", "TraceMessage", "GetTraceEnableFlags", "RtlVirtualUnwind", "GetConsoleScreenBufferInfo", "SHBrowseForFolderA", "__C_specific_handler", "_fmode", "wcstol", "LookupAccountNameW", "NtDeviceIoControlFile", "_callnewh", "NtOpenFile", "vfwprintf", "__winitenv", "SHGetFileInfoA", "_commode", "wprintf", "RtlNtStatusToDosError"]
+DLL_API_FEATURES = ["lable", " slc.dll", " api-ms-win-core-errorhandling-l1-1-0.dll", " api-ms-win-core-libraryloader-l1-1-0.dll", " winsta.dll", " msvbvm60.dll", " secur32.dll", " mfc42u.dll", " userenv.dll", " setupapi.dll", " uxtheme.dll", " api-ms-win-security-base-l1-1-0.dll", " api-ms-win-core-processthreads-l1-1-0.dll", " powrprof.dll", " mfc42.dll", " api-ms-win-core-misc-l1-1-0.dll", " api-ms-win-core-profile-l1-1-0.dll", " api-ms-win-core-localregistry-l1-1-0.dll", " wbemcomn.dll", " oledlg.dll", " api-ms-win-core-sysinfo-l1-1-0.dll", " mswsock.dll", " ntdll.dll", "iswalpha", "SetClassLongA", "SetThreadUILanguage", "ConvertSidToStringSidW", "RegisterTraceGuidsW", "NtQueryValueKey", "CheckTokenMembership", "_wsetlocale", "UnregisterTraceGuids", "wcscat_s", "VerSetConditionMask", "RtlLengthSid", "memmove_s", "?what@exception@@UBEPBDXZ", "RtlCaptureContext", "ShellExecuteA", "RtlFreeHeap", "swprintf_s", "_ftol2", "AppendMenuA", "GetTraceEnableLevel", "wcscpy_s", "_CItan", "__wgetmainargs", "RevertToSelf", "ConvertStringSecurityDescriptorToSecurityDescriptorW", "RtlLookupFunctionEntry", "GetTraceLoggerHandle", "TraceMessage", "GetTraceEnableFlags", "RtlVirtualUnwind", "GetConsoleScreenBufferInfo", "SHBrowseForFolderA", "__C_specific_handler", "_fmode", "wcstol", "LookupAccountNameW", "NtDeviceIoControlFile", "_callnewh", "NtOpenFile", "vfwprintf", "__winitenv", "SHGetFileInfoA", "_commode", "wprintf", "RtlNtStatusToDosError"]
+strip_dll_api = map(str.strip, DLL_API_FEATURES)
 SECTION_NAMES = [u'RT_CODE', u'RT_DATA', u'.nep', u'.rsrc', u'.bss', u'consent', u'RT_BSS', u'.reloc', u'PAGELK', u'.orpc', u'.idata', u'.rdata', u'FE_TEXT', u'.data', u'.pdata', u'.text', u'.tls', u'other']
-
+CATEGORIES = ["white", "Packed", "Trojan", "Downloader"]
 
 # {"GetCurrentProcess": {"white": 10, "black": 5, "P2P-Worm": 3, "Backdoor": 6}}
 # {"xxx.dll": {"white": 10, "black": 5, "P2P-Worm": 3, "Backdoor": 6}}
@@ -108,9 +109,13 @@ def select(data, thresh, ratio):
     return result
 
 
-def count_sample_info(table):
-    sql_content = 'SELECT Sha256, File_detail->\'$." PE imports"\', File_detail->\'$." PE sections"\', Category FROM {};'.format(table)
-    cur.execute(sql_content)
+def count_sample_info(table, category=None):
+    sql_content = 'SELECT Sha256, File_detail->\'$." PE imports"\', File_detail->\'$." PE sections"\', Category FROM {}'
+    if category:
+        sql_content += ' WHERE Category="{}";'
+    else:
+        sql_content += ';'
+    cur.execute(sql_content.format(table, category))
     results = cur.fetchall()
     sample_count = 0
     rows = []
@@ -121,7 +126,10 @@ def count_sample_info(table):
             if r1.values()[0][0].find(',') != -1 or r1.values()[-1][0].find(',') != -1:
                 continue
 
-            row[0] = 0 if table == "white_detail" else 1
+            if table == "white_detail":
+                row[0] = 0
+            else:
+                row[0] = CATEGORIES.index(category)
 
             sample_count += 1
             if sample_count > 1000:
@@ -155,6 +163,14 @@ def count_sample_info(table):
     return rows
 
 
+def write_csv(rows, csv_file):
+    csvfile = file(csv_file, 'wb')
+    writer = csv.writer(csvfile)
+    writer.writerow(strip_dll_api + SECTION_NAMES)
+    writer.writerows(rows)
+    csvfile.close()
+
+
 if __name__ == "__main__":
     conn = MySQLdb.connect(db="malware_info", user="root", passwd="polydata", host="localhost", port=3306, charset="utf8")
     cur = conn.cursor()
@@ -175,13 +191,14 @@ if __name__ == "__main__":
     #
     # DLL_API_FEATURES = ["lable"] + dll_feature + api_feature
     #
-    white_rows = count_sample_info("white_detail")
-    black_rows = count_sample_info("VT_detail")
-    csvfile = file('/root/sample_data.csv', 'wb')
-    writer = csv.writer(csvfile)
-    writer.writerow(DLL_API_FEATURES + SECTION_NAMES)
-    writer.writerows(white_rows + black_rows)
-    csvfile.close()
+    white = count_sample_info("white_detail")
+    black = count_sample_info("VT_detail", "Packed")
+    write_csv(white + black, '/root/Packed.csv')
 
+    black = count_sample_info("VT_detail", "Trojan")
+    write_csv(white + black, '/root/Trojan.csv')
+
+    black = count_sample_info("VT_detail", "Downloader")
+    write_csv(white + black, '/root/Downloader.csv')
     cur.close()
     conn.close()
