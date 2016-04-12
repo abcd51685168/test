@@ -8,15 +8,17 @@ import csv
 
 
 DLL_API_FEATURES = ["label", " slc.dll", " api-ms-win-core-errorhandling-l1-1-0.dll", " api-ms-win-core-libraryloader-l1-1-0.dll", " winsta.dll", " msvbvm60.dll", " secur32.dll", " mfc42u.dll", " userenv.dll", " setupapi.dll", " uxtheme.dll", " api-ms-win-security-base-l1-1-0.dll", " api-ms-win-core-processthreads-l1-1-0.dll", " powrprof.dll", " mfc42.dll", " api-ms-win-core-misc-l1-1-0.dll", " api-ms-win-core-profile-l1-1-0.dll", " api-ms-win-core-localregistry-l1-1-0.dll", " wbemcomn.dll", " oledlg.dll", " api-ms-win-core-sysinfo-l1-1-0.dll", " mswsock.dll", " ntdll.dll", "iswalpha", "SetClassLongA", "SetThreadUILanguage", "ConvertSidToStringSidW", "RegisterTraceGuidsW", "NtQueryValueKey", "CheckTokenMembership", "_wsetlocale", "UnregisterTraceGuids", "wcscat_s", "VerSetConditionMask", "RtlLengthSid", "memmove_s", "?what@exception@@UBEPBDXZ", "RtlCaptureContext", "ShellExecuteA", "RtlFreeHeap", "swprintf_s", "_ftol2", "AppendMenuA", "GetTraceEnableLevel", "wcscpy_s", "_CItan", "__wgetmainargs", "RevertToSelf", "ConvertStringSecurityDescriptorToSecurityDescriptorW", "RtlLookupFunctionEntry", "GetTraceLoggerHandle", "TraceMessage", "GetTraceEnableFlags", "RtlVirtualUnwind", "GetConsoleScreenBufferInfo", "SHBrowseForFolderA", "__C_specific_handler", "_fmode", "wcstol", "LookupAccountNameW", "NtDeviceIoControlFile", "_callnewh", "NtOpenFile", "vfwprintf", "__winitenv", "SHGetFileInfoA", "_commode", "wprintf", "RtlNtStatusToDosError"]
+SECTION_NAMES = [u'RT_CODE', u'RT_DATA', u'.nep', u'.rsrc', u'.bss', u'consent', u'RT_BSS', u'.reloc', u'PAGELK', u'.orpc', u'.idata', u'.rdata', u'FE_TEXT', u'.data', u'.pdata', u'.text', u'.tls', u'other']
 
 
 # {"GetCurrentProcess": {"white": 10, "black": 5, "P2P-Worm": 3, "Backdoor": 6}}
 # {"xxx.dll": {"white": 10, "black": 5, "P2P-Worm": 3, "Backdoor": 6}}
 def count_peinfo(table, category=None):
+    sql_content = 'SELECT Sha256, File_detail->\'$." PE imports"\', File_detail->\'$." PE sections"\', Category FROM {}'
     if category:
-        sql_content = 'SELECT Sha256, File_detail->\'$." PE imports"\', Category FROM {} WHERE Category="{}";'
+        sql_content += ' WHERE Category="{}";'
     else:
-        sql_content = 'SELECT Sha256, File_detail->\'$." PE imports"\', Category FROM {};'
+        sql_content += ';'
 
     cur.execute(sql_content.format(table, category))
 
@@ -26,17 +28,17 @@ def count_peinfo(table, category=None):
     dict_api = {}
     for result in results:
         if result[1]:
-            r0 = json.loads(result[1])
-            if r0.values()[0][0].find(',') != -1 or r0.values()[-1][0].find(',') != -1:
+            r1 = json.loads(result[1])
+            if r1.values()[0][0].find(',') != -1 or r1.values()[-1][0].find(',') != -1:
                 continue
 
-            # virus_name = result[2]
+            # virus_name = result[3]
             virus_name = "white" if table == "white_detail" else "black"
             sample_count += 1
             if sample_count > 1000:
                 break
 
-            for tmp_dll, apis in r0.iteritems():   # type of apis is list
+            for tmp_dll, apis in r1.iteritems():   # type of apis is list
                 for api in apis:
                     if api in dict_api:
                         dict_api[api][virus_name] += 1
@@ -106,17 +108,17 @@ def select(data, thresh, ratio):
     return result
 
 
-def count_dll_api(table):
-    sql_content = 'SELECT Sha256, File_detail->\'$." PE imports"\', Category FROM {};'.format(table)
+def count_sample_info(table):
+    sql_content = 'SELECT Sha256, File_detail->\'$." PE imports"\', File_detail->\'$." PE sections"\', Category FROM {};'.format(table)
     cur.execute(sql_content)
     results = cur.fetchall()
     sample_count = 0
     rows = []
     for result in results:
-        row = [0] * len(DLL_API_FEATURES)
+        row = [0] * (len(DLL_API_FEATURES) + len(SECTION_NAMES))
         if result[1]:
-            r0 = json.loads(result[1])
-            if r0.values()[0][0].find(',') != -1 or r0.values()[-1][0].find(',') != -1:
+            r1 = json.loads(result[1])
+            if r1.values()[0][0].find(',') != -1 or r1.values()[-1][0].find(',') != -1:
                 continue
 
             row[0] = 0 if table == "white_detail" else 1
@@ -125,7 +127,7 @@ def count_dll_api(table):
             if sample_count > 1000:
                 break
 
-            for tmp_dll, apis in r0.iteritems():   # type of apis is list
+            for tmp_dll, apis in r1.iteritems():   # type of apis is list
                 for api in apis:
                     try:
                         index = DLL_API_FEATURES.index(api)
@@ -141,34 +143,43 @@ def count_dll_api(table):
                     continue
 
             rows.append(row)
+
+            r2 = json.loads(result[2])
+
+            for item in r2:
+                try:
+                    index = SECTION_NAMES.index(item["Name"])
+                    row[index + len(DLL_API_FEATURES)] = 1
+                except ValueError:
+                    row[-1] += 1
     return rows
 
 
 if __name__ == "__main__":
     conn = MySQLdb.connect(db="malware_info", user="root", passwd="polydata", host="localhost", port=3306, charset="utf8")
     cur = conn.cursor()
-    time1 = time()
-    dict_white_dll, dict_white_api = count_peinfo("white_detail")
-    time2 = time()
-    dict_black_dll, dict_black_api = count_peinfo("VT_detail")
-    time3 = time()
-    print "cost time --> white_detail: %.2fs, VT_detail: %.2fs" % (time2 - time1, time3 - time2)
-    dict_dll = combine(dict_white_dll, dict_black_dll)
-    dict_api = combine(dict_white_api, dict_black_api)
-    dll_info = calc_info(dict_dll)
-    api_info = calc_info(dict_api)
-    # insert_db("dlls", "dll", dict_dll)
-    # insert_db("apis", "api", dict_api)
-    dll_feature = select(dll_info, 20, 0.6)
-    api_feature = select(api_info, 100, 0.85)
-
-    DLL_API_FEATURES = ["lable"] + dll_feature + api_feature
-
-    white_rows = count_dll_api("white_detail")
-    black_rows = count_dll_api("VT_detail")
+    # time1 = time()
+    # dict_white_dll, dict_white_api = count_peinfo("white_detail")
+    # time2 = time()
+    # dict_black_dll, dict_black_api = count_peinfo("VT_detail")
+    # time3 = time()
+    # print "cost time --> white_detail: %.2fs, VT_detail: %.2fs" % (time2 - time1, time3 - time2)
+    # dict_dll = combine(dict_white_dll, dict_black_dll)
+    # dict_api = combine(dict_white_api, dict_black_api)
+    # dll_info = calc_info(dict_dll)
+    # api_info = calc_info(dict_api)
+    # # insert_db("dlls", "dll", dict_dll)
+    # # insert_db("apis", "api", dict_api)
+    # dll_feature = select(dll_info, 20, 0.6)
+    # api_feature = select(api_info, 100, 0.85)
+    #
+    # DLL_API_FEATURES = ["lable"] + dll_feature + api_feature
+    #
+    white_rows = count_sample_info("white_detail")
+    black_rows = count_sample_info("VT_detail")
     csvfile = file('/root/sample_data.csv', 'wb')
     writer = csv.writer(csvfile)
-    writer.writerow(DLL_API_FEATURES)
+    writer.writerow(DLL_API_FEATURES + SECTION_NAMES)
     writer.writerows(white_rows + black_rows)
     csvfile.close()
 
