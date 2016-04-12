@@ -1,0 +1,1115 @@
+{ 
+    "cd68d21a83b8cadc747ba4fe29fe10af.vir": [
+        "antiav_servicestop", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "rat_pcclient"
+    ], 
+    "097771ba36c8e762b950d35debf74c3d.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "reads_self", 
+        "dropper", 
+        "persistence_autorun", 
+        "recon_programs"
+    ], 
+    "232120432d54a3cea47481153b8b3870.vir": [
+        "injection_rwx", 
+        "encrypted_ioc", 
+        "process_interest", 
+        "reads_self", 
+        "stealth_window", 
+        "dropper", 
+        "stealth_timeout", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "persistence_autorun", 
+        "browser_helper_object", 
+        "persistence_service", 
+        "recon_programs"
+    ], 
+    "cc56f253a15fb879b10748de7d9c4a7c.vir": [
+        "packer_entropy", 
+        "packer_upx", 
+        "antisandbox_unhook"
+    ], 
+    "38d413e57bc18dfdc749281cd21b0df6.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "packer_entropy", 
+        "packer_upx", 
+        "injection_runpe", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "recon_programs"
+    ], 
+    "e2db440c5074d1ca6bf3629bfa210b06.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "09389c5a124a1400d76e83bc9c866295.vir": [
+        "injection_rwx", 
+        "packer_entropy", 
+        "injection_createremotethread", 
+        "antiav_servicestop", 
+        "mimics_filetime", 
+        "persistence_autorun", 
+        "copies_self"
+    ], 
+    "7770ded270a8f6f117bde95de06fbacf.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ],  
+    "0edce000ccd7a0be88185920ac901940.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "process_needed", 
+        "reads_self", 
+        "persistence_autorun", 
+        "copies_self", 
+        "recon_programs"
+    ], 
+    "3d4f1aed0446e7716802a3dc2ae463c1.vir": [
+        "injection_rwx", 
+        "antisandbox_sleep", 
+        "reads_self", 
+        "stealth_window", 
+        "removes_zoneid_ads", 
+        "injection_runpe", 
+        "infostealer_keylog", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "persistence_autorun"
+    ], 
+    "2d00bbdbe517e460242d0b63394fc7e0.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe", 
+        "antisandbox_unhook"
+    ], 
+    "1ab0284377880006b30d6eaba93eceaf.vir": [
+        "injection_rwx", 
+        "dropper", 
+        "packer_entropy", 
+        "stealth_timeout", 
+        "infostealer_keylog", 
+        "persistence_autorun", 
+        "bypass_firewall"
+    ], 
+    "233426a99c8f403874f8df45197c7d96.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "black_domain", 
+        "stealth_network"
+    ], 
+    "2ea5261d3d25668525c4bbdbcfe5dcbf.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe"
+    ], 
+    "3c6b3a4983578673ac252e8a252eb1c5.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "bce8aac7664a2fcf1d42b3265631ca7d.vir": [
+        "injection_rwx", 
+        "process_needed", 
+        "injection_runpe", 
+        "injection_createremotethread", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "polymorphic"
+    ], 
+    "bbfba3c2af4c2c86fb51981fbc1a992f.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "browser_addon", 
+        "dropper", 
+        "packer_entropy", 
+        "black_domain", 
+        "persistence_autorun"
+    ], 
+    "134e5556e21b5d5706945c1cf659442d.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "process_needed", 
+        "reads_self", 
+        "dropper", 
+        "mimics_filetime", 
+        "multiple_useragents", 
+        "persistence_autorun", 
+        "recon_programs"
+    ], 
+    "07135a70225134fe929759f5c3e71df0.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe"
+    ], 
+    "0231197819d05861a341dc977305c3cf.vir": [
+        "injection_rwx", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "network_icmp"
+    ], 
+    "7f4a6879a90bc84bac5eb91c3963f3fd.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe", 
+        "black_domain", 
+        "stealth_network"
+    ], 
+    "3afa0669c7f6fe5dd93b2fd61f91d127.vir": [
+        "injection_rwx", 
+        "packer_entropy", 
+        "removes_zoneid_ads", 
+        "injection_runpe"
+    ], 
+    "5131c0a3f30e52f1654e45667df57d96.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "process_needed", 
+        "reads_self", 
+        "persistence_autorun", 
+        "copies_self", 
+        "recon_programs"
+    ], 
+    "e248a2922b37aba522e96cf96754dc76.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe", 
+        "antisandbox_unhook"
+    ], 
+    "13ddf219d8ae6da01c4b0e6f507a84dc.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "1bcfa6b0e373c800143f03d9c00d28d6.vir": [
+        "injection_rwx", 
+        "injection_runpe", 
+        "black_domain", 
+        "mimics_filetime", 
+        "persistence_autorun", 
+        "copies_self"
+    ], 
+    "3cea377daf1fbf035524163092bb43d4.vir": [
+        "injection_rwx", 
+        "injection_runpe", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "mimics_filetime", 
+        "persistence_autorun", 
+        "copies_self"
+    ], 
+    "3ae98d410c83a57645fea75484523dfd.vir": [
+        "injection_rwx", 
+        "dropper", 
+        "spreading_autoruninf", 
+        "infostealer_keylog", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "bypass_firewall", 
+        "copies_self"
+    ], 
+    "1a82345dba8266da72b0fc04475f6463.vir": [
+        "reads_self", 
+        "dropper", 
+        "antisandbox_unhook"
+    ], 
+    "19ff2196479791a0aa4579d314798620.vir": [
+        "injection_rwx", 
+        "mimics_agent", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "antivm_vbox_libs", 
+        "antisandbox_sboxie_libs", 
+        "antisandbox_sunbelt_libs", 
+        "recon_fingerprint", 
+        "deletes_self", 
+        "antisandbox_sleep", 
+        "creates_nullvalue", 
+        "persistence_autorun", 
+        "antianalysis_detectreg", 
+        "antivm_generic_bios", 
+        "antivm_generic_diskreg", 
+        "antivm_vbox_files", 
+        "antivm_vbox_keys", 
+        "antivm_vmware_files", 
+        "antivm_vmware_keys", 
+        "antivm_vpc_files", 
+        "browser_security", 
+        "polymorphic"
+    ], 
+    "3bbd96a1cb5f122bf841ba07ac272beb.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "d4e17f1861eb4317d426145fd3cf2396.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "b8a8336c583e992f567c598d913878dc.vir": [
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "infostealer_keylog", 
+        "persistence_autorun"
+    ], 
+    "d1e2c395cb9446edf6c43f1d299dc5d6.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "process_interest", 
+        "reads_self", 
+        "stealth_window", 
+        "dropper", 
+        "stealth_timeout", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "persistence_autorun", 
+        "browser_helper_object", 
+        "recon_programs"
+    ], 
+    "8c9be540aa8d05de5e0b2db4816fb526.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "recon_programs"
+    ], 
+    "3b72004d9eceda4532e429d9c85ebfa7.vir": [
+        "injection_rwx", 
+        "mimics_agent", 
+        "packer_entropy", 
+        "recon_checkip", 
+        "injection_runpe", 
+        "deletes_self", 
+        "deletes_shadow_copies", 
+        "antiav_servicestop", 
+        "black_domain", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "copies_self", 
+        "disables_system_restore"
+    ], 
+    "0e9bb1a3a568cb0cec6a1197c2de3216.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe", 
+        "stealth_network"
+    ], 
+    "39b80bf61c275bb11e821c581d51200b.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "antisandbox_sboxie_libs", 
+        "antiemu_wine_func", 
+        "black_domain", 
+        "multiple_useragents", 
+        "antivm_generic_bios", 
+        "antivm_generic_diskreg", 
+        "antivm_vbox_files", 
+        "antivm_vmware_files", 
+        "modify_proxy", 
+        "recon_programs"
+    ], 
+    "06f65f8ed72ff033a46ae38ad4c13014.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe"
+    ], 
+    "0975ff6c8f8c066b6b919e43c5d58aca.vir": [
+        "disables_uac", 
+        "modify_security_center_warnings"
+    ], 
+    "82b596ba551f3c19dadeb963e95d8a4f.vir": [
+        "antisandbox_unhook"
+    ], 
+    "3c780f060b5f96a8cd45501c2a3dd991.vir": [
+        "injection_rwx", 
+        "mimics_agent", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "antivm_vbox_libs", 
+        "antisandbox_sboxie_libs", 
+        "antisandbox_sunbelt_libs", 
+        "recon_fingerprint", 
+        "deletes_self", 
+        "antisandbox_sleep", 
+        "creates_nullvalue", 
+        "persistence_autorun", 
+        "antianalysis_detectreg", 
+        "antivm_generic_bios", 
+        "antivm_generic_diskreg", 
+        "antivm_vbox_files", 
+        "antivm_vbox_keys", 
+        "antivm_vmware_files", 
+        "antivm_vmware_keys", 
+        "antivm_vpc_files", 
+        "browser_security", 
+        "polymorphic"
+    ], 
+    "21eafa0b8fa4e320341e0b25b057ddcd.vir": [
+        "injection_rwx", 
+        "dropper", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "deletes_self", 
+        "stealth_timeout", 
+        "locker_regedit", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "copies_self"
+    ], 
+    "0857958ebe4bd6ccd1e40d773b36883b.vir": [
+        "injection_rwx", 
+        "process_needed", 
+        "injection_runpe", 
+        "injection_createremotethread", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "polymorphic"
+    ], 
+    "237f12c1f03f02f091fd3aad7d36b3c7.vir": [
+        "driver_load", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "multiple_useragents"
+    ], 
+    "2bae3a0f72d07a9a60bd8bd0b1958a37.vir": [
+        "injection_rwx", 
+        "packer_entropy", 
+        "stealth_network"
+    ], 
+    "201761ffa812a93e709cd589ff4396a0.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "stealth_window", 
+        "injection_runpe", 
+        "deletes_self", 
+        "stealth_file"
+    ], 
+    "21019fb6fcf5096669f558a04290c920.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "a4482b8b6b839bcfb457eadcccda9e6f.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "encrypted_ioc", 
+        "packer_entropy"
+    ], 
+    "195ebdc3aa8d980859760ff9e09b1d31.vir": [
+        "injection_rwx", 
+        "antisandbox_sleep", 
+        "stealth_window", 
+        "dropper", 
+        "packer_entropy", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "disables_uac", 
+        "stealth_hiddenreg"
+    ], 
+    "c39051316378eb7e5256fa948da08e8d.vir": [
+        "injection_rwx", 
+        "process_needed", 
+        "reads_self", 
+        "dropper", 
+        "injection_runpe", 
+        "stealth_file", 
+        "antiav_srp", 
+        "browser_security", 
+        "copies_self"
+    ], 
+    "346d2d448ca7046a0b2d2e205c068956.vir": [
+        "injection_rwx", 
+        "dropper", 
+        "packer_entropy", 
+        "infostealer_keylog", 
+        "persistence_autorun", 
+        "bypass_firewall"
+    ], 
+    "25f154f3b3bfcae64f1d565e1b34e52d.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "infostealer_keylog", 
+        "persistence_autorun", 
+        "bypass_firewall", 
+        "copies_self"
+    ], 
+    "0fba1534d9db3f283e48d985416f113a.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "browser_addon", 
+        "dropper", 
+        "packer_entropy", 
+        "black_domain", 
+        "persistence_autorun"
+    ], 
+    "220bdd5fdaac7f0e590f16f23fc0df78.vir": [
+        "injection_rwx", 
+        "antisandbox_sleep", 
+        "process_needed", 
+        "injection_runpe", 
+        "injection_createremotethread", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "copies_self"
+    ], 
+    "02231a0ed1e23dafce7927d38c70450b.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "packer_entropy", 
+        "packer_upx", 
+        "antisandbox_sboxie_libs", 
+        "antisandbox_productid", 
+        "injection_createremotethread", 
+        "rat_spynet"
+    ], 
+    "1db34c79a24719be8e7417b55b5e2378.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "browser_addon", 
+        "dropper", 
+        "packer_entropy", 
+        "black_domain", 
+        "persistence_autorun"
+    ], 
+    "76f1189acf79fba3b254978fa282a1ed.vir": [
+        "reads_self", 
+        "stealth_window", 
+        "dropper", 
+        "packer_entropy", 
+        "deletes_self", 
+        "polymorphic"
+    ], 
+    "2a89a47afc03bd58a86939ff951cb2ae.vir": [
+        "process_interest", 
+        "reads_self", 
+        "stealth_window", 
+        "dropper", 
+        "deletes_self", 
+        "persistence_autorun", 
+        "copies_self"
+    ], 
+    "20ac74f633e3e7561cf1488c5e52235c.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "browser_addon", 
+        "dropper", 
+        "packer_entropy", 
+        "black_domain", 
+        "persistence_autorun"
+    ], 
+    "11f4c6df026670ff393fb6ed70ac0f39.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "stealth_window", 
+        "dropper", 
+        "injection_runpe", 
+        "deletes_self", 
+        "antisandbox_unhook", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "persistence_ads"
+    ], 
+    "2ec609c670581810c89944ad002d8cba.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "injection_createremotethread", 
+        "antidbg_windows", 
+        "copies_self"
+    ], 
+    "28493323ed4db0405efd0baa8463f44a.vir": [
+        "injection_rwx", 
+        "network_bind", 
+        "dropper", 
+        "packer_entropy", 
+        "removes_zoneid_ads", 
+        "injection_runpe", 
+        "stealth_timeout", 
+        "copies_self"
+    ], 
+    "2f4e1c6d7f5edb02eebd120269cf1117.vir": [
+        "injection_rwx", 
+        "stealth_window", 
+        "dropper", 
+        "packer_entropy", 
+        "removes_zoneid_ads", 
+        "injection_runpe", 
+        "stealth_timeout", 
+        "antisandbox_unhook", 
+        "persistence_autorun", 
+        "copies_self"
+    ], 
+    "2ed883fafb9e097ff33bf5333b362232.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "08d6dfa08648eaee9e2bf6f78117e13d.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "1ff5d20914b99e277b591eeb1c0ff995.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "browser_addon", 
+        "dropper", 
+        "packer_entropy", 
+        "black_domain", 
+        "persistence_autorun"
+    ], 
+    "0cc8f6693b8300d05a696fe2e90c4833.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "129a84e53e354d68697e8122bc7ddf5a.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "deletes_self"
+    ], 
+    "9b228e3f45001abd126e8de9b3ebf8dd.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe"
+    ], 
+    "338e73b5b54f43254e91de76dcb0ce66.vir": [
+        "static_authenticode", 
+        "stealth_window", 
+        "dropper", 
+        "persistence_autorun", 
+        "copies_self"
+    ], 
+    "7ddddfa915d5c69f191ca9063d587ead.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "infostealer_keylog", 
+        "persistence_autorun", 
+        "bypass_firewall", 
+        "copies_self"
+    ], 
+    "0e4d7e208a49a0361964a9b3f0469a45.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "antisandbox_unhook"
+    ], 
+    "3b385bbd8ac8e23dcf5344644777bdfa.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "stealth_window", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "stealth_timeout", 
+        "antisandbox_unhook", 
+        "modify_proxy"
+    ], 
+    "917ee639bc631bfb33a4336fa50b79a6.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "infostealer_keylog", 
+        "persistence_autorun", 
+        "bypass_firewall", 
+        "copies_self"
+    ], 
+    ], 
+    "95593331b56a65dda15c442af814e1bc.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "browser_addon", 
+        "dropper", 
+        "packer_entropy", 
+        "black_domain", 
+        "persistence_autorun"
+    ], 
+    "3bf9f23e46dd1dbf3c4674b409cec6c7.vir": [
+        "static_authenticode", 
+        "process_interest", 
+        "black_domain", 
+        "recon_programs"
+    ], 
+    "6ae464dcad6b22385f830c333ea7c89c.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "browser_addon", 
+        "dropper", 
+        "packer_entropy", 
+        "black_domain", 
+        "persistence_autorun"
+    ], 
+    "19ddada4ce6de01d041891c65b5ce6b4.vir": [
+        "injection_rwx", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "andromeda_behavior", 
+        "removes_zoneid_ads", 
+        "deletes_self", 
+        "antiav_servicestop", 
+        "antisandbox_unhook", 
+        "mimics_filetime", 
+        "stealth_file", 
+        "copies_self", 
+        "stealth_hiddenreg", 
+        "stealth_hide_notifications"
+    ], 
+    "8a5b624305588627077fe75ffb890006.vir": [
+        "injection_rwx", 
+        "antisandbox_unhook"
+    ], 
+    "301a4d0b5577aab5400423a306a18ba8.vir": [
+        "reads_self", 
+        "packer_entropy", 
+        "persistence_autorun", 
+        "polymorphic"
+    ], 
+    "d373e589d31527608423e859717eed4f.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "deletes_self", 
+        "antisandbox_sboxie_libs", 
+        "antisandbox_productid", 
+        "injection_createremotethread", 
+        "infostealer_keylog", 
+        "black_domain", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "antidbg_devices", 
+        "rat_spynet"
+    ], 
+    "ac59e8cadcf259d216f0fb3933d3110d.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "17e12e16b28503f0b8ea5d93d17295d2.vir": [
+        "injection_rwx", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "antisandbox_sleep"
+    ], 
+    "266c621edfdee50063cbc46a15e1a774.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "de837c09d8b6cb45289eabf24169814d.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "stealth_window", 
+        "browser_startpage", 
+        "packer_entropy", 
+        "antiav_servicestop", 
+        "persistence_autorun"
+    ], 
+    "dd35c9b816d70c70ba63719539f2d9ec.vir": [
+        "injection_rwx", 
+        "dropper", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "infostealer_keylog", 
+        "persistence_autorun", 
+        "bypass_firewall", 
+        "copies_self"
+    ], 
+    "511655f6f6153725a2a866a0a0435a0c.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "infostealer_keylog", 
+        "copies_self"
+    ], 
+    "7921b3762f8a92e354511063cf19195f.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "0cf17606637717da4332c665ef34b230.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "38ea4e0a82bf2eb5728ec9817d6aeea9.vir": [
+        "injection_rwx", 
+        "dropper", 
+        "packer_entropy", 
+        "copies_self"
+    ], 
+    "144c03f23160b52e90532cd0823d71bf.vir": [
+        "packer_entropy", 
+        "black_domain"
+    ], 
+    "109f75e13c39c9ef7312ad8846f02d61.vir": [
+        "reads_self", 
+        "packer_entropy", 
+        "packer_upx"
+    ], 
+    "541853040baf9de1e308dbad2c5a9dcf.vir": [
+        "injection_rwx", 
+        "process_needed", 
+        "reads_self", 
+        "stealth_timeout", 
+        "persistence_autorun", 
+        "copies_self", 
+        "network_icmp"
+    ], 
+    "d20e7ed6567aa5657f4f1693a59d226d.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "modify_proxy"
+    ], 
+    "090d6fb760f45c3b086b634a98faf602.vir": [
+        "injection_rwx", 
+        "injection_runpe", 
+        "black_domain", 
+        "mimics_filetime", 
+        "persistence_autorun", 
+        "copies_self"
+    ], 
+    "6fbfc8bc33f283e063a3a71bb710a7af.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "d0d0d4ec65f81f2a82bebf7af402a08c.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "28ee09c92a637cfac9636557ea77baf8.vir": [
+        "injection_rwx", 
+        "dropper", 
+        "infostealer_keylog", 
+        "persistence_autorun", 
+        "bypass_firewall", 
+        "copies_self"
+    ], 
+    "0ce703c04e6c13cc26cb3b6f9f04aec6.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "3e310ceecbc4a77fc3f6b71d471ad068.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "antisandbox_unhook"
+    ], 
+    "86d833a2982e9724c68b7c4cde61729c.vir": [
+        "injection_rwx", 
+        "network_bind", 
+        "packer_entropy", 
+        "injection_runpe"
+    ], 
+    "294ee39c6e98d7d5b0fc39d3186587d9.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "0f5b2417ac923c4d3f690d8ce3e64a47.vir": [
+        "static_authenticode", 
+        "reads_self"
+    ], 
+    "758195f950ea9eddcdec53ce1d55beaf.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe"
+    ], 
+    "0fafe9a6df302647e71eedf0e04f3a4d.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "process_needed", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "infostealer_keylog", 
+        "antisandbox_mouse_hook", 
+        "deletes_self", 
+        "persistence_autorun", 
+        "stealth_file"
+    ], 
+    "0da0ced5e1c9f47a46ebebd2cf4c966d.vir": [
+        "injection_rwx", 
+        "packer_entropy", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "stealth_file", 
+        "copies_self"
+    ], 
+    "32190c93082114e2f18332ab06ca9073.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "2fe063ee6a2c8596593fd50178fa3561.vir": [
+        "injection_rwx", 
+        "process_needed", 
+        "reads_self", 
+        "injection_runpe", 
+        "deletes_self", 
+        "persistence_autorun"
+    ], 
+    "20128fe7f6dfb54c5758cb17b02a5170.vir": [
+        "injection_rwx", 
+        "mimics_agent", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "antivm_vbox_libs", 
+        "antisandbox_sboxie_libs", 
+        "antisandbox_sunbelt_libs", 
+        "recon_fingerprint", 
+        "deletes_self", 
+        "antisandbox_sleep", 
+        "creates_nullvalue", 
+        "persistence_autorun", 
+        "antianalysis_detectreg", 
+        "antivm_generic_bios", 
+        "antivm_generic_diskreg", 
+        "antivm_vbox_files", 
+        "antivm_vbox_keys", 
+        "antivm_vmware_files", 
+        "antivm_vmware_keys", 
+        "antivm_vpc_files", 
+        "browser_security", 
+        "polymorphic"
+    ], 
+    "87a260dc302279e990a3a3481738fb4c.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "browser_addon", 
+        "dropper", 
+        "packer_entropy", 
+        "black_domain", 
+        "persistence_autorun"
+    ], 
+    "850fa670d614722cc3289432b157f456.vir": [
+        "injection_rwx", 
+        "encrypted_ioc", 
+        "reads_self", 
+        "packer_entropy", 
+        "copies_self"
+    ], 
+    "2d7b3b4482d6cf318a3b7d3de745948f.vir": [
+        "static_authenticode"
+    ], 
+    "9ef9f1b3f61a8b2adedfeb472d99ef5f.vir": [
+        "exec_crash", 
+        "injection_rwx", 
+        "dropper", 
+        "packer_entropy", 
+        "antisandbox_unhook"
+    ], 
+    "d80dfc9c319d368097b64128c928031d.vir": [
+        "injection_rwx", 
+        "dropper", 
+        "packer_entropy", 
+        "stealth_file"
+    ], 
+    "08e55e6808059da8fdcf95b665cbb004.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "recon_programs"
+    ], 
+    "220db801d28dbf0915f0a8aec69787fc.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "0ea6785c36055e184d73c9369d8c8b30.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "stealth_timeout", 
+        "infostealer_keylog", 
+        "persistence_autorun", 
+        "bypass_firewall", 
+        "copies_self"
+    ], 
+    "0fec375b1eacfe42d4b86c2fdbf56714.vir": [
+        "exec_crash", 
+        "injection_rwx", 
+        "packer_entropy", 
+        "antisandbox_unhook"
+    ], 
+    "1d67c9fab3128261597244f0e642762b.vir": [
+        "injection_rwx", 
+        "driver_load", 
+        "packer_entropy", 
+        "packer_upx", 
+        "black_domain", 
+        "stealth_network"
+    ], 
+    "37adc8221a505b816b9e8f6c59f80dda.vir": [
+        "reads_self", 
+        "packer_entropy", 
+        "packer_upx", 
+        "mimics_filetime"
+    ], 
+    "abb7a014e1c91b02405efc0c6380e20f.vir": [
+        "packer_entropy", 
+        "packer_upx"
+    ], 
+    "1422d302b37876ffe525f248233052d1.vir": [
+        "injection_rwx", 
+        "packer_entropy", 
+        "removes_zoneid_ads", 
+        "injection_runpe"
+    ], 
+    "907d740dd995cb601f153896564b6506.vir": [
+        "injection_rwx", 
+        "network_bind", 
+        "dropper", 
+        "packer_entropy", 
+        "removes_zoneid_ads", 
+        "deletes_self", 
+        "persistence_autorun", 
+        "copies_self"
+    ], 
+    "19f882eb5f75e61df5a34f12c611aa93.vir": [
+        "injection_rwx", 
+        "packer_entropy", 
+        "packer_upx"
+    ], 
+    "04ee8693c5e45b2dae944ef92becaa50.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "reads_self", 
+        "dropper", 
+        "black_domain", 
+        "mimics_filetime", 
+        "multiple_useragents", 
+        "persistence_autorun", 
+        "recon_programs"
+    ], 
+    "c652d8a7121cc1e7c0628c19417899d6.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "231d7d2e7b22ca8f601f467c40dbf804.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "33fba077b7ec0f5bbdfd16cff21d9038.vir": [
+        "injection_rwx", 
+        "process_needed", 
+        "injection_runpe", 
+        "injection_createremotethread", 
+        "antisandbox_unhook", 
+        "black_domain", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "polymorphic"
+    ], 
+    "0e262fd4b69b2cd15d5eb22f0c86a8b8.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "browser_addon", 
+        "dropper", 
+        "packer_entropy", 
+        "black_domain", 
+        "persistence_autorun"
+    ], 
+    "204a334bfb566eea77cc47690d7a3e6b.vir": [
+        "static_authenticode", 
+        "reads_self", 
+        "antisandbox_unhook", 
+        "black_domain"
+    ]
+}

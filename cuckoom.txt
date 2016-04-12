@@ -1,0 +1,845 @@
+{
+    "097771ba36c8e762b950d35debf74c3d.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "process_needed", 
+        "reads_self", 
+        "persistence_autorun", 
+        "recon_programs"
+    ], 
+    "109f75e13c39c9ef7312ad8846f02d61.vir": [
+        "reads_self", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "packer_upx"
+    ], 
+    "cc56f253a15fb879b10748de7d9c4a7c.vir": [
+        "packer_entropy", 
+        "packer_upx"
+    ], 
+    "38d413e57bc18dfdc749281cd21b0df6.vir": [
+        "injection_rwx", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "packer_upx", 
+        "injection_runpe"
+    ], 
+    "e2db440c5074d1ca6bf3629bfa210b06.vir": [
+        "packer_entropy", 
+        "packer_upx"
+    ], 
+    "09389c5a124a1400d76e83bc9c866295.vir": [
+        "antisandbox_sleep", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "injection_createremotethread", 
+        "antiav_servicestop", 
+        "mimics_filetime", 
+        "persistence_autorun", 
+        "copies_self", 
+        "static_pe_anomaly"
+    ], 
+    "39b80bf61c275bb11e821c581d51200b.vir": [
+        "static_authenticode", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ], 
+    "0edce000ccd7a0be88185920ac901940.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "process_needed", 
+        "reads_self", 
+        "persistence_autorun", 
+        "copies_self", 
+        "recon_programs", 
+        "static_pe_anomaly"
+    ], 
+    "11f4c6df026670ff393fb6ed70ac0f39.vir": [
+        "injection_rwx", 
+        "network_anomaly", 
+        "reads_self", 
+        "stealth_window", 
+        "dropper", 
+        "injection_runpe", 
+        "stealth_timeout", 
+        "deletes_self", 
+        "antisandbox_unhook", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "persistence_ads", 
+        "static_pe_anomaly"
+    ], 
+    "2d00bbdbe517e460242d0b63394fc7e0.vir": [], 
+    "1ab0284377880006b30d6eaba93eceaf.vir": [
+        "injection_rwx", 
+        "dropper", 
+        "packer_entropy", 
+        "stealth_timeout"
+    ], 
+    "233426a99c8f403874f8df45197c7d96.vir": [
+        "static_authenticode", 
+        "packer_entropy"
+    ], 
+    "2ea5261d3d25668525c4bbdbcfe5dcbf.vir": [
+        "static_authenticode", 
+        "origin_resource_langid"
+    ], 
+    "3c6b3a4983578673ac252e8a252eb1c5.vir": [
+        "packer_entropy", 
+        "packer_upx"
+    ], 
+    "bce8aac7664a2fcf1d42b3265631ca7d.vir": [
+        "injection_rwx", 
+        "origin_resource_langid", 
+        "injection_runpe", 
+        "stealth_timeout", 
+        "injection_createremotethread", 
+        "antisandbox_unhook", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "polymorphic"
+    ], 
+    "19ff2196479791a0aa4579d314798620.vir": [
+        "injection_rwx", 
+        "mimics_agent", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "stealth_timeout", 
+        "antivm_vbox_libs", 
+        "antisandbox_sboxie_libs", 
+        "antisandbox_sunbelt_libs", 
+        "deletes_self", 
+        "antisandbox_sleep", 
+        "creates_nullvalue", 
+        "persistence_autorun", 
+        "antianalysis_detectreg", 
+        "antivm_generic_bios", 
+        "antivm_generic_diskreg", 
+        "antivm_vbox_files", 
+        "antivm_vbox_keys", 
+        "antivm_vmware_files", 
+        "antivm_vmware_keys", 
+        "antivm_vpc_files", 
+        "browser_security", 
+        "static_pe_anomaly"
+    ], 
+    "bbfba3c2af4c2c86fb51981fbc1a992f.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "persistence_autorun", 
+        "static_pe_anomaly"
+    ], 
+    "134e5556e21b5d5706945c1cf659442d.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "process_needed", 
+        "reads_self", 
+        "dropper", 
+        "multiple_useragents", 
+        "persistence_autorun", 
+        "recon_programs"
+    ], 
+    "07135a70225134fe929759f5c3e71df0.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe"
+    ], 
+    "0231197819d05861a341dc977305c3cf.vir": [
+        "injection_rwx", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "network_icmp"
+    ], 
+    "3cea377daf1fbf035524163092bb43d4.vir": [
+        "injection_rwx", 
+        "injection_runpe", 
+        "mimics_filetime", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "copies_self", 
+        "static_pe_anomaly"
+    ], 
+    "0ea6785c36055e184d73c9369d8c8b30.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "stealth_timeout", 
+        "infostealer_keylog", 
+        "critical_process", 
+        "persistence_autorun", 
+        "bypass_firewall", 
+        "copies_self"
+    ], 
+    "13ddf219d8ae6da01c4b0e6f507a84dc.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "87a260dc302279e990a3a3481738fb4c.vir": [
+        "static_authenticode", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ], 
+    "3ae98d410c83a57645fea75484523dfd.vir": [
+        "injection_rwx", 
+        "copies_self"
+    ], 
+    "1a82345dba8266da72b0fc04475f6463.vir": [
+        "reads_self", 
+        "dropper", 
+        "antisandbox_unhook"
+    ], 
+    "541853040baf9de1e308dbad2c5a9dcf.vir": [
+        "static_pe_anomaly"
+    ], 
+    "5131c0a3f30e52f1654e45667df57d96.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "process_needed", 
+        "reads_self", 
+        "persistence_autorun", 
+        "recon_programs"
+    ], 
+    "b8a8336c583e992f567c598d913878dc.vir": [
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "infostealer_keylog", 
+        "persistence_autorun"
+    ], 
+    "d4e17f1861eb4317d426145fd3cf2396.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "d1e2c395cb9446edf6c43f1d299dc5d6.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "persistence_autorun", 
+        "stealth_network"
+    ], 
+    "8c9be540aa8d05de5e0b2db4816fb526.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "antisandbox_unhook", 
+        "recon_programs", 
+        "static_pe_anomaly"
+    ], 
+    "3b72004d9eceda4532e429d9c85ebfa7.vir": [
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ], 
+    "0e9bb1a3a568cb0cec6a1197c2de3216.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe"
+    ], 
+    "7770ded270a8f6f117bde95de06fbacf.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "06f65f8ed72ff033a46ae38ad4c13014.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe"
+    ], 
+    "301a4d0b5577aab5400423a306a18ba8.vir": [
+        "reads_self", 
+        "packer_entropy", 
+        "persistence_autorun", 
+        "static_pe_anomaly"
+    ], 
+    "0975ff6c8f8c066b6b919e43c5d58aca.vir": [
+        "origin_resource_langid", 
+        "bypass_firewall", 
+        "disables_uac", 
+        "modify_security_center_warnings", 
+        "static_pe_anomaly"
+    ], 
+    "3c780f060b5f96a8cd45501c2a3dd991.vir": [
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ], 
+    "21eafa0b8fa4e320341e0b25b057ddcd.vir": [
+        "injection_rwx", 
+        "dropper", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "deletes_self", 
+        "stealth_timeout", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "copies_self", 
+        "static_pe_anomaly"
+    ], 
+    "0857958ebe4bd6ccd1e40d773b36883b.vir": [
+        "injection_rwx", 
+        "injection_runpe", 
+        "stealth_timeout", 
+        "injection_createremotethread", 
+        "antisandbox_unhook", 
+        "persistence_autorun", 
+        "stealth_file"
+    ], 
+    "237f12c1f03f02f091fd3aad7d36b3c7.vir": [
+        "origin_langid", 
+        "origin_resource_langid"
+    ], 
+    "04ee8693c5e45b2dae944ef92becaa50.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "reads_self", 
+        "dropper", 
+        "multiple_useragents", 
+        "persistence_autorun", 
+        "recon_programs"
+    ], 
+    "2bae3a0f72d07a9a60bd8bd0b1958a37.vir": [
+        "packer_entropy"
+    ], 
+    "201761ffa812a93e709cd589ff4396a0.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "stealth_window", 
+        "origin_langid", 
+        "origin_resource_langid", 
+        "injection_runpe", 
+        "deletes_self", 
+        "stealth_file", 
+        "static_pe_anomaly"
+    ], 
+    "21019fb6fcf5096669f558a04290c920.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "a4482b8b6b839bcfb457eadcccda9e6f.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "encrypted_ioc", 
+        "packer_entropy", 
+        "stealth_network"
+    ], 
+    "c39051316378eb7e5256fa948da08e8d.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "origin_resource_langid", 
+        "injection_runpe", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "browser_security", 
+        "copies_self", 
+        "static_pe_anomaly"
+    ], 
+    "25f154f3b3bfcae64f1d565e1b34e52d.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "stealth_timeout", 
+        "stealth_network", 
+        "copies_self"
+    ], 
+    "0fba1534d9db3f283e48d985416f113a.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "persistence_autorun", 
+        "static_pe_anomaly"
+    ], 
+    "220bdd5fdaac7f0e590f16f23fc0df78.vir": [
+        "injection_rwx", 
+        "antisandbox_sleep", 
+        "process_interest", 
+        "process_needed", 
+        "injection_runpe", 
+        "stealth_timeout", 
+        "injection_createremotethread", 
+        "antisandbox_unhook", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "tinba_behavior", 
+        "copies_self"
+    ], 
+    "02231a0ed1e23dafce7927d38c70450b.vir": [
+        "injection_rwx", 
+        "antisandbox_sleep", 
+        "process_interest", 
+        "stealth_window", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "packer_upx", 
+        "antisandbox_sboxie_libs", 
+        "injection_createremotethread", 
+        "persistence_autorun", 
+        "rat_spynet", 
+        "static_pe_anomaly"
+    ], 
+    "1db34c79a24719be8e7417b55b5e2378.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "persistence_autorun", 
+        "static_pe_anomaly"
+    ], 
+    "195ebdc3aa8d980859760ff9e09b1d31.vir": [
+        "injection_rwx", 
+        "antisandbox_sleep", 
+        "reads_self", 
+        "stealth_window", 
+        "packer_entropy", 
+        "stealth_timeout", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "virus", 
+        "disables_uac", 
+        "stealth_hiddenreg"
+    ], 
+    "76f1189acf79fba3b254978fa282a1ed.vir": [
+        "antisandbox_sleep", 
+        "reads_self", 
+        "stealth_window", 
+        "dropper", 
+        "packer_entropy", 
+        "deletes_self", 
+        "stealth_timeout"
+    ], 
+    "2a89a47afc03bd58a86939ff951cb2ae.vir": [
+        "origin_langid", 
+        "origin_resource_langid"
+    ], 
+    "20ac74f633e3e7561cf1488c5e52235c.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "persistence_autorun", 
+        "static_pe_anomaly"
+    ], 
+    "2ec609c670581810c89944ad002d8cba.vir": [
+        "injection_rwx", 
+        "process_interest", 
+        "reads_self", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "injection_createremotethread", 
+        "antidbg_windows", 
+        "static_pe_anomaly"
+    ], 
+    "28493323ed4db0405efd0baa8463f44a.vir": [
+        "packer_entropy"
+    ], 
+    "2ed883fafb9e097ff33bf5333b362232.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "231d7d2e7b22ca8f601f467c40dbf804.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "08d6dfa08648eaee9e2bf6f78117e13d.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "1ff5d20914b99e277b591eeb1c0ff995.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "persistence_autorun", 
+        "static_pe_anomaly"
+    ], 
+    "0cc8f6693b8300d05a696fe2e90c4833.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "129a84e53e354d68697e8122bc7ddf5a.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "deletes_self", 
+        "static_pe_anomaly"
+    ], 
+    "9b228e3f45001abd126e8de9b3ebf8dd.vir": [
+        "origin_resource_langid", 
+        "static_pe_anomaly"
+    ], 
+    "338e73b5b54f43254e91de76dcb0ce66.vir": [
+        "static_authenticode"
+    ], 
+    "0e4d7e208a49a0361964a9b3f0469a45.vir": [
+        "injection_rwx", 
+        "reads_self"
+    ], 
+    "3b385bbd8ac8e23dcf5344644777bdfa.vir": [
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ], 
+    "95593331b56a65dda15c442af814e1bc.vir": [
+        "static_authenticode", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ], 
+    "de837c09d8b6cb45289eabf24169814d.vir": [
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ], 
+    "6ae464dcad6b22385f830c333ea7c89c.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "persistence_autorun", 
+        "static_pe_anomaly"
+    ], 
+    "19ddada4ce6de01d041891c65b5ce6b4.vir": [
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ], 
+    "144c03f23160b52e90532cd0823d71bf.vir": [
+        "packer_entropy"
+    ], 
+    "d373e589d31527608423e859717eed4f.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "stealth_window", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "antisandbox_sboxie_libs", 
+        "injection_createremotethread", 
+        "persistence_autorun", 
+        "antidbg_devices", 
+        "rat_spynet"
+    ], 
+    "17e12e16b28503f0b8ea5d93d17295d2.vir": [
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ], 
+    "266c621edfdee50063cbc46a15e1a774.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "7ddddfa915d5c69f191ca9063d587ead.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "stealth_timeout", 
+        "infostealer_keylog", 
+        "persistence_autorun", 
+        "copies_self"
+    ], 
+    "511655f6f6153725a2a866a0a0435a0c.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "stealth_timeout", 
+        "infostealer_keylog", 
+        "critical_process", 
+        "copies_self"
+    ], 
+    "7921b3762f8a92e354511063cf19195f.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "38ea4e0a82bf2eb5728ec9817d6aeea9.vir": [
+        "injection_rwx", 
+        "packer_entropy", 
+        "stealth_timeout", 
+        "copies_self"
+    ], 
+    "232120432d54a3cea47481153b8b3870.vir": [], 
+    "d20e7ed6567aa5657f4f1693a59d226d.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "dropper", 
+        "origin_langid", 
+        "origin_resource_langid", 
+        "modify_proxy", 
+        "static_pe_anomaly"
+    ], 
+    "ac59e8cadcf259d216f0fb3933d3110d.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "3e310ceecbc4a77fc3f6b71d471ad068.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "origin_langid", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "antisandbox_unhook", 
+        "static_pe_anomaly"
+    ], 
+    "917ee639bc631bfb33a4336fa50b79a6.vir": [], 
+    "e248a2922b37aba522e96cf96754dc76.vir": [], 
+    "090d6fb760f45c3b086b634a98faf602.vir": [
+        "injection_rwx", 
+        "injection_runpe", 
+        "mimics_filetime", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "copies_self", 
+        "static_pe_anomaly"
+    ], 
+    "6fbfc8bc33f283e063a3a71bb710a7af.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "d0d0d4ec65f81f2a82bebf7af402a08c.vir": [
+        "packer_entropy", 
+        "packer_upx"
+    ], 
+    "28ee09c92a637cfac9636557ea77baf8.vir": [], 
+    "dd35c9b816d70c70ba63719539f2d9ec.vir": [
+        "packer_entropy"
+    ], 
+    "0ce703c04e6c13cc26cb3b6f9f04aec6.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "204a334bfb566eea77cc47690d7a3e6b.vir": [
+        "static_authenticode", 
+        "static_pe_anomaly"
+    ], 
+    "86d833a2982e9724c68b7c4cde61729c.vir": [
+        "packer_entropy"
+    ], 
+    "0fafe9a6df302647e71eedf0e04f3a4d.vir": [
+        "injection_rwx", 
+        "process_needed", 
+        "dropper", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "packer_upx", 
+        "deletes_self", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "static_pe_anomaly"
+    ], 
+    "0f5b2417ac923c4d3f690d8ce3e64a47.vir": [
+        "static_authenticode", 
+        "reads_self", 
+        "stealth_timeout", 
+        "static_pe_anomaly"
+    ], 
+    "758195f950ea9eddcdec53ce1d55beaf.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe", 
+        "static_pe_anomaly"
+    ], 
+    "294ee39c6e98d7d5b0fc39d3186587d9.vir": [
+        "packer_entropy", 
+        "packer_upx"
+    ], 
+    "0da0ced5e1c9f47a46ebebd2cf4c966d.vir": [
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ], 
+    "32190c93082114e2f18332ab06ca9073.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "2fe063ee6a2c8596593fd50178fa3561.vir": [
+        "injection_rwx", 
+        "reads_self", 
+        "injection_runpe", 
+        "deletes_self", 
+        "persistence_autorun"
+    ], 
+    "20128fe7f6dfb54c5758cb17b02a5170.vir": [
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ], 
+    "7f4a6879a90bc84bac5eb91c3963f3fd.vir": [
+        "static_authenticode", 
+        "origin_langid", 
+        "origin_resource_langid"
+    ], 
+    "1bcfa6b0e373c800143f03d9c00d28d6.vir": [
+        "injection_rwx", 
+        "injection_runpe", 
+        "mimics_filetime", 
+        "persistence_autorun", 
+        "stealth_file", 
+        "copies_self", 
+        "static_pe_anomaly"
+    ], 
+    "850fa670d614722cc3289432b157f456.vir": [
+        "injection_rwx", 
+        "encrypted_ioc", 
+        "reads_self", 
+        "packer_entropy"
+    ], 
+    "3bbd96a1cb5f122bf841ba07ac272beb.vir": [
+        "packer_entropy", 
+        "packer_upx"
+    ], 
+    "9ef9f1b3f61a8b2adedfeb472d99ef5f.vir": [
+        "exec_crash", 
+        "injection_rwx", 
+        "dropper", 
+        "packer_entropy", 
+        "antisandbox_unhook", 
+        "stealth_file", 
+        "static_pe_anomaly"
+    ], 
+    "d80dfc9c319d368097b64128c928031d.vir": [
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ], 
+    "346d2d448ca7046a0b2d2e205c068956.vir": [
+        "packer_entropy"
+    ], 
+    "220db801d28dbf0915f0a8aec69787fc.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "0fec375b1eacfe42d4b86c2fdbf56714.vir": [
+        "exec_crash", 
+        "injection_rwx", 
+        "packer_entropy", 
+        "antisandbox_unhook"
+    ], 
+    "1d67c9fab3128261597244f0e642762b.vir": [
+        "injection_rwx", 
+        "antisandbox_sleep", 
+        "driver_load", 
+        "origin_langid", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "packer_upx", 
+        "stealth_network"
+    ], 
+    "37adc8221a505b816b9e8f6c59f80dda.vir": [
+        "reads_self", 
+        "packer_entropy", 
+        "packer_upx"
+    ], 
+    "abb7a014e1c91b02405efc0c6380e20f.vir": [
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "packer_upx"
+    ], 
+    "0cf17606637717da4332c665ef34b230.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "907d740dd995cb601f153896564b6506.vir": [
+        "packer_entropy"
+    ], 
+    "19f882eb5f75e61df5a34f12c611aa93.vir": [
+        "injection_rwx", 
+        "packer_entropy", 
+        "packer_upx", 
+        "stealth_timeout", 
+        "static_pe_anomaly"
+    ], 
+    "3bf9f23e46dd1dbf3c4674b409cec6c7.vir": [
+        "static_authenticode"
+    ], 
+    "c652d8a7121cc1e7c0628c19417899d6.vir": [
+        "reads_self", 
+        "dropper", 
+        "packer_entropy", 
+        "packer_upx", 
+        "polymorphic"
+    ], 
+    "08e55e6808059da8fdcf95b665cbb004.vir": [
+        "static_authenticode", 
+        "injection_rwx", 
+        "reads_self", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "injection_runpe", 
+        "antisandbox_unhook", 
+        "recon_programs", 
+        "static_pe_anomaly"
+    ], 
+    "33fba077b7ec0f5bbdfd16cff21d9038.vir": [
+        "injection_rwx", 
+        "injection_runpe", 
+        "stealth_timeout", 
+        "injection_createremotethread", 
+        "antisandbox_unhook", 
+        "persistence_autorun", 
+        "stealth_file"
+    ], 
+    "0e262fd4b69b2cd15d5eb22f0c86a8b8.vir": [
+        "static_authenticode", 
+        "origin_resource_langid", 
+        "packer_entropy", 
+        "static_pe_anomaly"
+    ]
+}
