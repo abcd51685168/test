@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import json
 import codecs
@@ -5,12 +7,14 @@ import MySQLdb
 from time import time
 from math import log
 import csv
+import sys
 
 
 DLL_API_FEATURES = ["lable", " slc.dll", " api-ms-win-core-errorhandling-l1-1-0.dll", " api-ms-win-core-libraryloader-l1-1-0.dll", " winsta.dll", " msvbvm60.dll", " secur32.dll", " mfc42u.dll", " userenv.dll", " setupapi.dll", " uxtheme.dll", " api-ms-win-security-base-l1-1-0.dll", " api-ms-win-core-processthreads-l1-1-0.dll", " powrprof.dll", " mfc42.dll", " api-ms-win-core-misc-l1-1-0.dll", " api-ms-win-core-profile-l1-1-0.dll", " api-ms-win-core-localregistry-l1-1-0.dll", " wbemcomn.dll", " oledlg.dll", " api-ms-win-core-sysinfo-l1-1-0.dll", " mswsock.dll", " ntdll.dll", "iswalpha", "SetClassLongA", "SetThreadUILanguage", "ConvertSidToStringSidW", "RegisterTraceGuidsW", "NtQueryValueKey", "CheckTokenMembership", "_wsetlocale", "UnregisterTraceGuids", "wcscat_s", "VerSetConditionMask", "RtlLengthSid", "memmove_s", "?what@exception@@UBEPBDXZ", "RtlCaptureContext", "ShellExecuteA", "RtlFreeHeap", "swprintf_s", "_ftol2", "AppendMenuA", "GetTraceEnableLevel", "wcscpy_s", "_CItan", "__wgetmainargs", "RevertToSelf", "ConvertStringSecurityDescriptorToSecurityDescriptorW", "RtlLookupFunctionEntry", "GetTraceLoggerHandle", "TraceMessage", "GetTraceEnableFlags", "RtlVirtualUnwind", "GetConsoleScreenBufferInfo", "SHBrowseForFolderA", "__C_specific_handler", "_fmode", "wcstol", "LookupAccountNameW", "NtDeviceIoControlFile", "_callnewh", "NtOpenFile", "vfwprintf", "__winitenv", "SHGetFileInfoA", "_commode", "wprintf", "RtlNtStatusToDosError"]
 strip_dll_api = map(str.strip, DLL_API_FEATURES)
 SECTION_NAMES = [u'RT_CODE', u'RT_DATA', u'.nep', u'.rsrc', u'.bss', u'consent', u'RT_BSS', u'.reloc', u'PAGELK', u'.orpc', u'.idata', u'.rdata', u'FE_TEXT', u'.data', u'.pdata', u'.text', u'.tls', u'other']
-CATEGORIES = ["white", "Packed", "Trojan", "Downloader"]
+# CATEGORIES = ["white", "Packed", "Trojan", "Downloader"]
+
 
 # {"GetCurrentProcess": {"white": 10, "black": 5, "P2P-Worm": 3, "Backdoor": 6}}
 # {"xxx.dll": {"white": 10, "black": 5, "P2P-Worm": 3, "Backdoor": 6}}
@@ -121,7 +125,7 @@ def count_sample_info(table, category=None):
     rows = []
     for result in results:
         row = [0] * (len(DLL_API_FEATURES) + len(SECTION_NAMES))
-        if result[1]:
+        if result[1] and result[2]:
             r1 = json.loads(result[1])
             if r1.values()[0][0].find(',') != -1 or r1.values()[-1][0].find(',') != -1:
                 continue
@@ -153,7 +157,6 @@ def count_sample_info(table, category=None):
             rows.append(row)
 
             r2 = json.loads(result[2])
-
             for item in r2:
                 try:
                     index = SECTION_NAMES.index(item["Name"])
@@ -171,8 +174,14 @@ def write_csv(rows, csv_file):
     csvfile.close()
 
 
+def count_category(table="VT_detail"):
+    sql_content = 'SELECT DISTINCT Category FROM {}'.format(table)
+    cur.execute(sql_content)
+    return [category[0] for category in cur.fetchall() if category[0] not in ['()', None]]
+
+
 if __name__ == "__main__":
-    conn = MySQLdb.connect(db="malware_info", user="root", passwd="polydata", host="localhost", port=3306, charset="utf8")
+    conn = MySQLdb.connect(db="malware_info", user="root", passwd="polydata", host="192.168.25.62", port=3306, charset="utf8")
     cur = conn.cursor()
     # time1 = time()
     # dict_white_dll, dict_white_api = count_peinfo("white_detail")
@@ -191,14 +200,17 @@ if __name__ == "__main__":
     #
     # DLL_API_FEATURES = ["lable"] + dll_feature + api_feature
     #
+    CATEGORIES = ["White"] + count_category()
     white = count_sample_info("white_detail")
-    black = count_sample_info("VT_detail", "Packed")
-    write_csv(white + black, '/root/Packed.csv')
-
-    black = count_sample_info("VT_detail", "Trojan")
-    write_csv(white + black, '/root/Trojan.csv')
-
-    black = count_sample_info("VT_detail", "Downloader")
-    write_csv(white + black, '/root/Downloader.csv')
+    for c in CATEGORIES[1:]:
+        black = count_sample_info("VT_detail", c)
+        if len(black) > len(white) / 10:
+            write_csv(white + black, '/root/csv/{}.csv'.format(c))
+    #
+    # black = count_sample_info("VT_detail", "Trojan")
+    # write_csv(white + black, '/root/Trojan.csv')
+    #
+    # black = count_sample_info("VT_detail", "Downloader")
+    # write_csv(white + black, '/root/Downloader.csv')
     cur.close()
     conn.close()
