@@ -8,12 +8,14 @@ from time import time
 from math import log
 import csv
 import sys
+import pefile
 
 
 DLL_API_FEATURES = ["lable", " slc.dll", " api-ms-win-core-errorhandling-l1-1-0.dll", " api-ms-win-core-libraryloader-l1-1-0.dll", " winsta.dll", " msvbvm60.dll", " secur32.dll", " mfc42u.dll", " userenv.dll", " setupapi.dll", " uxtheme.dll", " api-ms-win-security-base-l1-1-0.dll", " api-ms-win-core-processthreads-l1-1-0.dll", " powrprof.dll", " mfc42.dll", " api-ms-win-core-misc-l1-1-0.dll", " api-ms-win-core-profile-l1-1-0.dll", " api-ms-win-core-localregistry-l1-1-0.dll", " wbemcomn.dll", " oledlg.dll", " api-ms-win-core-sysinfo-l1-1-0.dll", " mswsock.dll", " ntdll.dll", "iswalpha", "SetClassLongA", "SetThreadUILanguage", "ConvertSidToStringSidW", "RegisterTraceGuidsW", "NtQueryValueKey", "CheckTokenMembership", "_wsetlocale", "UnregisterTraceGuids", "wcscat_s", "VerSetConditionMask", "RtlLengthSid", "memmove_s", "?what@exception@@UBEPBDXZ", "RtlCaptureContext", "ShellExecuteA", "RtlFreeHeap", "swprintf_s", "_ftol2", "AppendMenuA", "GetTraceEnableLevel", "wcscpy_s", "_CItan", "__wgetmainargs", "RevertToSelf", "ConvertStringSecurityDescriptorToSecurityDescriptorW", "RtlLookupFunctionEntry", "GetTraceLoggerHandle", "TraceMessage", "GetTraceEnableFlags", "RtlVirtualUnwind", "GetConsoleScreenBufferInfo", "SHBrowseForFolderA", "__C_specific_handler", "_fmode", "wcstol", "LookupAccountNameW", "NtDeviceIoControlFile", "_callnewh", "NtOpenFile", "vfwprintf", "__winitenv", "SHGetFileInfoA", "_commode", "wprintf", "RtlNtStatusToDosError"]
 strip_dll_api = map(str.strip, DLL_API_FEATURES)
 SECTION_NAMES = [u'RT_CODE', u'RT_DATA', u'.nep', u'.rsrc', u'.bss', u'consent', u'RT_BSS', u'.reloc', u'PAGELK', u'.orpc', u'.idata', u'.rdata', u'FE_TEXT', u'.data', u'.pdata', u'.text', u'.tls', u'other']
-# CATEGORIES = ["white", "Packed", "Trojan", "Downloader"]
+SECTION_NAMES = map(lambda x: x.strip('.').lower(), SECTION_NAMES)
+CATEGORIES = ['White', u'Packed', u'Trojan', u'Ransom', u'Downloader', u'AdWare', u'PSW', u'low', u'GameThief', u'Virus', u'Backdoor', u'Spy', u'Clicker', u'Net-Worm', u'Dropper', u'Porn-Dialer', u'Worm', u'Banker', u'Hoax', u'WebToolbar', u'Rootkit', u'Email-Worm', u'Constructor', u'HackTool', u'Notifier', u'FakeAV', u'Exploit', u'P2P-Worm', u'Proxy', u'FraudTool', u'PSWTool', u'RiskTool', u'Dialer', u'Porn-Downloader', u'Monitor', u'VirTool', u'IM-Worm', u'RemoteAdmin', u'Porn-Tool', u'Mailfinder', u'IM-Flooder', u'Trojan-Downloader', u'Trojan-FakeAV', u'IM', u'NetTool', u'DDoS', u'Server-Proxy', u'Trojan-Spy', u'Email-Flooder', u'Client-SMTP', u'Client-IRC', u'Server-Web', u'SMS-Flooder', u'Flooder', u'Type_Win32', u'Server-FTP', u'Tool', u'IRC-Worm', u'Garbage', u'AVTool', u'DoS', u'SMS', u'CrackTool', u'AdTool']
 
 
 # {"GetCurrentProcess": {"white": 10, "black": 5, "P2P-Worm": 3, "Backdoor": 6}}
@@ -154,15 +156,15 @@ def count_sample_info(table, category=None):
                 except ValueError:
                     continue
 
-            rows.append(row)
-
             r2 = json.loads(result[2])
             for item in r2:
                 try:
-                    index = SECTION_NAMES.index(item["Name"])
+                    index = SECTION_NAMES.index(item["Name"].strip('.').lower())
                     row[index + len(DLL_API_FEATURES)] = 1
                 except ValueError:
                     row[-1] += 1
+
+            rows.append(row)
     return rows
 
 
@@ -178,6 +180,37 @@ def count_category(table="VT_detail"):
     sql_content = 'SELECT DISTINCT Category FROM {}'.format(table)
     cur.execute(sql_content)
     return [category[0] for category in cur.fetchall() if category[0] not in ['()', None]]
+
+
+def get_pe_info(target):
+    row = [0] * (len(DLL_API_FEATURES) + len(SECTION_NAMES))
+    pe = pefile.PE(target)
+    for entry in pe.DIRECTORY_ENTRY_IMPORT:
+        dll = entry.dll.lower()
+        print dll
+        try:
+            index = DLL_API_FEATURES.index(dll)
+            row[index] = 1
+        except ValueError:
+            pass
+
+        for imp in entry.imports:
+            print "\t", imp.name
+            try:
+                index = DLL_API_FEATURES.index(imp.name)
+                row[index] = 1
+            except ValueError:
+                pass
+
+    for section in pe.sections:
+        print section.Name.strip('.').lower()
+        try:
+            index = SECTION_NAMES.index(section.Name.strip('.').lower())
+            row[index + len(DLL_API_FEATURES)] = 1
+        except ValueError:
+            row[-1] += 1
+
+    return ",".join(map(str, row))
 
 
 if __name__ == "__main__":
@@ -206,11 +239,7 @@ if __name__ == "__main__":
         black = count_sample_info("VT_detail", c)
         if len(black) > len(white) / 10:
             write_csv(white + black, '/root/csv/{}.csv'.format(c))
-    #
-    # black = count_sample_info("VT_detail", "Trojan")
-    # write_csv(white + black, '/root/Trojan.csv')
-    #
-    # black = count_sample_info("VT_detail", "Downloader")
-    # write_csv(white + black, '/root/Downloader.csv')
+    # row = get_pe_info("/tmp/6663d802713cb354c81f13a9ea738449.vir")
+    # print row
     cur.close()
     conn.close()
