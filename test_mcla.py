@@ -4,6 +4,7 @@
 import os
 import logging
 import pefile
+from pefile import PEFormatError
 import hashlib
 from ctypes import cdll, string_at
 from collections import Counter
@@ -67,34 +68,30 @@ def get_pe_info(target):
     row = [0] * (len(DLL_API_FEATURES) + len(SECTION_NAMES))
     try:
         pe = pefile.PE(target)
-    except:
+    except PEFormatError:
         # log.exception("%s, not valid PE File" % target)
         return None
 
     if hasattr(pe, "DIRECTORY_ENTRY_IMPORT"):
         for entry in pe.DIRECTORY_ENTRY_IMPORT:
             dll = entry.dll.lower()
-            try:
+            if dll in DLL_API_FEATURES:
                 index = DLL_API_FEATURES.index(dll)
                 row[index] = 1
-            except ValueError:
-                pass
 
             for imp in entry.imports:
-                try:
+                if imp.name in DLL_API_FEATURES:
                     index = DLL_API_FEATURES.index(imp.name)
                     row[index] = 1
-                except ValueError:
-                    pass
     else:
         return None
 
     for section in pe.sections:
         se = section.Name.strip('.').strip("\x00").lower()
-        try:
+        if se in SECTION_NAMES:
             index = SECTION_NAMES.index(se)
             row[index + len(DLL_API_FEATURES)] = 1
-        except ValueError:
+        else:
             row[-1] += 1
 
     # change list to string
@@ -105,14 +102,20 @@ def mcla_match(target):
     pe_info = get_pe_info(target)
     if not pe_info:
         return "no_pe_info"
-    try:
-        p_category = libpefile.pecker_gmcla_group_predict_vec_data(pe_info, len(DLL_API_FEATURES) + len(SECTION_NAMES))
-        if p_category:
-            return string_at(p_category)
-        else:
-            return None
-    except:
-        log.exception('target #%s pe scan error' % target)
+
+    p_category = libpefile.pecker_gmcla_group_predict_vec_data(pe_info, len(DLL_API_FEATURES) + len(SECTION_NAMES))
+    if p_category:
+        return string_at(p_category)
+    else:
+        return None
+
+
+def mcla_match_count(target):
+    pe_info = get_pe_info(target)
+    if not pe_info:
+        return -1
+    category_count = libpefile.pecker_gmcla_group_checkall_vec_data(pe_info, len(DLL_API_FEATURES) + len(SECTION_NAMES))
+    return category_count
 
 
 def mcla_check(path):
@@ -123,6 +126,17 @@ def mcla_check(path):
         for target in os.listdir(path):
             target = os.path.join(path, target)
             results.update([mcla_match(target)])
+    return results
+
+
+def mcla_check_count(path):
+    results = Counter()
+    if os.path.isfile(path):
+        results.update([mcla_match_count(path)])
+    elif os.path.isdir(path):
+        for target in os.listdir(path):
+            target = os.path.join(path, target)
+            results.update([mcla_match_count(target)])
     return results
 
 
@@ -144,14 +158,23 @@ if __name__ == "__main__":
     if not HAVE_PEFILE:
         print("no PEFILE")
 
+    csv_count = libpefile.pecker_gmcla_group_model_num()
+    print "csv count: ", csv_count
+
     # dir_paths = ["/root/winexe/win7_32", "/root/winexe/win7_64", "/root/winexe/xpsp3", "/polydata/samples/worm"]
     dir_paths = ["/polydata/samples/baidu"]
-    for dir_path in dir_paths:
-        results = dict(mcla_check(dir_path))
-        count_samples = len(os.listdir(dir_path))
-        count_no_pe_info = results["no_pe_info"] if "no_pe_info" in results else 0
-        print dir_path, count_samples, results
-        print "white detection ratio:", results[None] * 1.0 / (count_samples - count_no_pe_info)
-
+    # for dir_path in dir_paths:
+    #     results = dict(mcla_check(dir_path))
+    #     count_samples = len(os.listdir(dir_path))
+    #     count_no_pe_info = results["no_pe_info"] if "no_pe_info" in results else 0
+    #     print dir_path, count_samples, results
+    #     print "white detection ratio:", results[None] * 1.0 / (count_samples - count_no_pe_info)
+    count_mcla = Counter()
+    for target in os.listdir(dir_paths[0]):
+        target = os.path.join(dir_paths[0], target)
+        count = mcla_match_count(target)
+        print target, count
+        count_mcla.update([count])
+    print dict(count_mcla)
     # Sha256 = GetFileSha256(target)
     # print Sha256

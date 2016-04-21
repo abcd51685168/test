@@ -143,25 +143,22 @@ def count_sample_info(table, category=None):
 
             for tmp_dll, apis in r1.iteritems():   # type of apis is list
                 for api in apis:
-                    try:
+                    if api in DLL_API_FEATURES:
                         index = DLL_API_FEATURES.index(api)
                         row[index] = 1
-                    except ValueError:
-                        continue
 
                 dll = tmp_dll.lower()
-                try:
+                if dll in DLL_API_FEATURES:
                     index = DLL_API_FEATURES.index(dll)
                     row[index] = 1
-                except ValueError:
-                    continue
 
             r2 = json.loads(result[2])
             for item in r2:
-                try:
-                    index = SECTION_NAMES.index(item["Name"].strip('.').lower())
+                se = item["Name"].strip('.').lower()
+                if se in SECTION_NAMES:
+                    index = SECTION_NAMES.index(se)
                     row[index + len(DLL_API_FEATURES)] = 1
-                except ValueError:
+                else:
                     row[-1] += 1
 
             rows.append(row)
@@ -188,26 +185,22 @@ def get_pe_info(target):
     for entry in pe.DIRECTORY_ENTRY_IMPORT:
         dll = entry.dll.lower()
         print dll
-        try:
+        if dll in DLL_API_FEATURES:
             index = DLL_API_FEATURES.index(dll)
             row[index] = 1
-        except ValueError:
-            pass
 
         for imp in entry.imports:
             print "\t", imp.name
-            try:
+            if imp.name in DLL_API_FEATURES:
                 index = DLL_API_FEATURES.index(imp.name)
                 row[index] = 1
-            except ValueError:
-                pass
 
     for section in pe.sections:
-        print section.Name.strip('.').lower()
-        try:
-            index = SECTION_NAMES.index(section.Name.strip('.').lower())
+        se = section.Name.strip('.').lower()
+        if se in SECTION_NAMES:
+            index = SECTION_NAMES.index(se)
             row[index + len(DLL_API_FEATURES)] = 1
-        except ValueError:
+        else:
             row[-1] += 1
 
     return ",".join(map(str, row))
