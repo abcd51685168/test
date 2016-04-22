@@ -40,23 +40,24 @@ try:
 except:
     log.exception("load %s failed", so_path)
 
-DLL_API_FEATURES = [" slc.dll", " api-ms-win-core-errorhandling-l1-1-0.dll",
-                    " api-ms-win-core-libraryloader-l1-1-0.dll", " winsta.dll", " msvbvm60.dll", " secur32.dll",
-                    " mfc42u.dll", " userenv.dll", " setupapi.dll", " uxtheme.dll",
-                    " api-ms-win-security-base-l1-1-0.dll", " api-ms-win-core-processthreads-l1-1-0.dll",
-                    " powrprof.dll", " mfc42.dll", " api-ms-win-core-misc-l1-1-0.dll",
-                    " api-ms-win-core-profile-l1-1-0.dll", " api-ms-win-core-localregistry-l1-1-0.dll", " wbemcomn.dll",
-                    " oledlg.dll", " api-ms-win-core-sysinfo-l1-1-0.dll", " mswsock.dll", " ntdll.dll", "iswalpha",
-                    "SetClassLongA", "SetThreadUILanguage", "ConvertSidToStringSidW", "RegisterTraceGuidsW",
-                    "NtQueryValueKey", "CheckTokenMembership", "_wsetlocale", "UnregisterTraceGuids", "wcscat_s",
-                    "VerSetConditionMask", "RtlLengthSid", "memmove_s", "?what@exception@@UBEPBDXZ",
-                    "RtlCaptureContext", "ShellExecuteA", "RtlFreeHeap", "swprintf_s", "_ftol2", "AppendMenuA",
-                    "GetTraceEnableLevel", "wcscpy_s", "_CItan", "__wgetmainargs", "RevertToSelf",
-                    "ConvertStringSecurityDescriptorToSecurityDescriptorW", "RtlLookupFunctionEntry",
-                    "GetTraceLoggerHandle", "TraceMessage", "GetTraceEnableFlags", "RtlVirtualUnwind",
-                    "GetConsoleScreenBufferInfo", "SHBrowseForFolderA", "__C_specific_handler", "_fmode", "wcstol",
-                    "LookupAccountNameW", "NtDeviceIoControlFile", "_callnewh", "NtOpenFile", "vfwprintf", "__winitenv",
-                    "SHGetFileInfoA", "_commode", "wprintf", "RtlNtStatusToDosError"]
+# DLL_API_FEATURES = [" slc.dll", " api-ms-win-core-errorhandling-l1-1-0.dll",
+#                     " api-ms-win-core-libraryloader-l1-1-0.dll", " winsta.dll", " msvbvm60.dll", " secur32.dll",
+#                     " mfc42u.dll", " userenv.dll", " setupapi.dll", " uxtheme.dll",
+#                     " api-ms-win-security-base-l1-1-0.dll", " api-ms-win-core-processthreads-l1-1-0.dll",
+#                     " powrprof.dll", " mfc42.dll", " api-ms-win-core-misc-l1-1-0.dll",
+#                     " api-ms-win-core-profile-l1-1-0.dll", " api-ms-win-core-localregistry-l1-1-0.dll", " wbemcomn.dll",
+#                     " oledlg.dll", " api-ms-win-core-sysinfo-l1-1-0.dll", " mswsock.dll", " ntdll.dll", "iswalpha",
+#                     "SetClassLongA", "SetThreadUILanguage", "ConvertSidToStringSidW", "RegisterTraceGuidsW",
+#                     "NtQueryValueKey", "CheckTokenMembership", "_wsetlocale", "UnregisterTraceGuids", "wcscat_s",
+#                     "VerSetConditionMask", "RtlLengthSid", "memmove_s", "?what@exception@@UBEPBDXZ",
+#                     "RtlCaptureContext", "ShellExecuteA", "RtlFreeHeap", "swprintf_s", "_ftol2", "AppendMenuA",
+#                     "GetTraceEnableLevel", "wcscpy_s", "_CItan", "__wgetmainargs", "RevertToSelf",
+#                     "ConvertStringSecurityDescriptorToSecurityDescriptorW", "RtlLookupFunctionEntry",
+#                     "GetTraceLoggerHandle", "TraceMessage", "GetTraceEnableFlags", "RtlVirtualUnwind",
+#                     "GetConsoleScreenBufferInfo", "SHBrowseForFolderA", "__C_specific_handler", "_fmode", "wcstol",
+#                     "LookupAccountNameW", "NtDeviceIoControlFile", "_callnewh", "NtOpenFile", "vfwprintf", "__winitenv",
+#                     "SHGetFileInfoA", "_commode", "wprintf", "RtlNtStatusToDosError"]
+DLL_API_FEATURES = [' msi.dll', ' libgcc_s_dw2-1.dll', ' mscoree.dll', ' libstdc++-6.dll', ' qt5core.dll', ' olepro32.dll', '_Znwj', 'GdipSetInterpolationMode', 'SetAbortProc', 'CreateStatusWindowW', 'DrawStateW', 'GdipGetImagePixelFormat', 'MonitorFromWindow', '_CorExeMain', 'GdipBitmapUnlockBits', 'memchr', 'DragQueryFileW', 'SystemTimeToTzSpecificLocalTime', 'GdipGetImageWidth', 'GetDiskFreeSpaceW', 'InitializeSListHead', 'GdipDrawImageI', 'InternetCrackUrlW', 'CreateICA', 'localeconv', 'GdipDeleteGraphics', 'SignalObjectAndWait', 'CloseWindow', '__register_frame_info', 'VerSetConditionMask', 'GdipGetImageHeight', 'GetNearestPaletteIndex', 'VariantTimeToSystemTime', 'RtlCaptureContext', 'PathIsDirectoryW', 'CharUpperBuffW', 'GdipCreateBitmapFromScan0', 'GdipBitmapLockBits', 'EnumDisplayMonitors', 'VarBstrFromDate', '_ZdlPv', 'SubtractRect', '_ZTVN10__cxxabiv120__si_class_type_infoE', 'HttpOpenRequestW', 'AppendMenuW', '_CorDllMain', 'GdipDrawImageRectI', 'RtlUnwindEx', 'GdipCreateFromHDC', 'strerror', '_ZTVN10__cxxabiv117__class_type_infoE', 'SetLayeredWindowAttributes', 'RtlLookupFunctionEntry', 'MethCallEngine', '__deregister_frame_info', 'GradientFill', 'Shell_NotifyIconW', 'RtlVirtualUnwind', 'Ord(187)', 'CreateHatchBrush', 'HttpSendRequestW', 'TranslateAcceleratorW', 'GdipGetImageGraphicsContext', 'Ord(253)', '__C_specific_handler', 'RtlPcToFileHeader', '_fmode', '__mb_cur_max', 'LookupPrivilegeValueW', 'ExcludeUpdateRgn', 'EnumCalendarInfoW', 'MessageBoxIndirectW', 'GetMenuStringW', 'FreeConsole', 'modf', '_ZTVN10__cxxabiv121__vmi_class_type_infoE', 'InternetConnectW', 'DoDragDrop', '__vbaI4ErrVar', 'GetTextExtentPoint32W', 'ProcCallEngine', '__vbaGet3', 'WritePrivateProfileStringW', 'GetObjectType', 'OleDuplicateData']
 strip_dll_api = map(str.strip, DLL_API_FEATURES)
 SECTION_NAMES = ['rt_code', 'rt_data', 'nep', 'rsrc', 'bss', 'consent', 'rt_bss', 'reloc', 'pagelk', 'orpc', 'idata', 'rdata', 'fe_text', 'data', 'pdata', 'text', 'tls', 'other']
 # SECTION_NAMES = [u'RT_CODE', u'RT_DATA', u'.nep', u'.rsrc', u'.bss', u'consent', u'RT_BSS', u'.reloc', u'PAGELK',
@@ -162,7 +163,7 @@ if __name__ == "__main__":
     print "csv count: ", csv_count
 
     # dir_paths = ["/root/winexe/win7_32", "/root/winexe/win7_64", "/root/winexe/xpsp3", "/polydata/samples/worm"]
-    dir_paths = ["/polydata/samples/baidu"]
+    dir_paths = ["/polydata/samples/worm"]
     # for dir_path in dir_paths:
     #     results = dict(mcla_check(dir_path))
     #     count_samples = len(os.listdir(dir_path))
@@ -173,7 +174,7 @@ if __name__ == "__main__":
     for target in os.listdir(dir_paths[0]):
         target = os.path.join(dir_paths[0], target)
         count = mcla_match_count(target)
-        print target, count
+        # print target, count
         count_mcla.update([count])
     print dict(count_mcla)
     # Sha256 = GetFileSha256(target)
