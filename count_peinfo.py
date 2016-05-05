@@ -259,7 +259,7 @@ def get_pe_info(target):
 def test_mcla():
     csv_count = libpefile.pecker_gmcla_group_model_num()
     print "csv count: ", csv_count
-    dir_paths = ["/polydata/samples/worm", "/polydata/samples/2003white"]
+    dir_paths = ["/root/virus", "/polydata/samples/lvmeng_white"]
     result = []
     for dir_path in dir_paths:
         count_mcla = Counter()
@@ -341,10 +341,10 @@ if __name__ == "__main__":
     api_feature = select(api_info, 25, 0.5)
 
     api_threshes = range(5, 91, 5)
-    api_ratios = map(lambda x: x / 100.0, range(10, 91, 5))
+    api_ratios = map(lambda x: x / 100.0, range(50, 61, 1))
     para_apis = [(i, j) for i in api_threshes for j in api_ratios]
     para_apis.reverse()
-
+    para_apis = [(28, 0.57)]
     dict_results = {}
     for i, para in enumerate(para_apis, 1):
         api_feature = select(api_info, para[0], para[1])
@@ -380,12 +380,10 @@ if __name__ == "__main__":
         dict_results[i] = dict_mcla
         libpefile.pecker_gmcla_free()
 
-        with open("/root/mcla/{}.txt".format(i), 'w') as f:
+        with open("/root/mcla2857/{}.txt".format(i), 'w') as f:
             json.dump(dict_results, f)
 
     cur.close()
     conn.close()
     time4 = time()
     print "total cost time %.2fs" % (time4 - time1)
-    with open("/root/dict_results.txt", 'w') as f:
-        json.dump(dict_results, f)

