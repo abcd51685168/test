@@ -190,6 +190,15 @@ def write_csv(rows, csv_file):
     csvfile.close()
 
 
+def write_csv_ex(rows, csv_file):
+    csvfile = file(csv_file, 'wb')
+    writer = csv.writer(csvfile)
+    writer.writerow(DLL_API_FEATURES)
+    rows = map(lambda x: x[:len(DLL_API_FEATURES)], rows)
+    writer.writerows(rows)
+    csvfile.close()
+
+
 def count_category(table="VT_detail"):
     sql_content = 'SELECT DISTINCT Category FROM {}'.format(table)
     cur.execute(sql_content)
@@ -338,19 +347,21 @@ if __name__ == "__main__":
     # insert_db("apis_copy", dict_api)
 
     dll_feature = select(dll_info, 20, 0.5)
-    api_feature = select(api_info, 25, 0.5)
+    api_feature = select(api_info, 35, 0.5)
 
     api_threshes = range(5, 91, 5)
     api_ratios = map(lambda x: x / 100.0, range(50, 61, 1))
     para_apis = [(i, j) for i in api_threshes for j in api_ratios]
     para_apis.reverse()
-    para_apis = [(28, 0.57)]
+    para_apis = [(35, 0.5)]
     dict_results = {}
     for i, para in enumerate(para_apis, 1):
         api_feature = select(api_info, para[0], para[1])
 
         DLL_API_FEATURES = [u"lable"] + dll_feature + api_feature
-        features = dll_feature + api_feature + SECTION_NAMES
+        features = dll_feature + api_feature
+        print features
+        # features = dll_feature + api_feature + SECTION_NAMES
 
         # CATEGORIES = ["White"] + count_category()
         white = count_sample_info("lvmeng_dll_exe_5m_white")
@@ -360,7 +371,7 @@ if __name__ == "__main__":
             black = count_sample_info("VT_detail", c)
             if len(black) > len(white) / 10:
                 category_csv_path = os.path.join(CSV_PATH, c + ".csv")
-                write_csv(white + black, category_csv_path)
+                write_csv_ex(white + black, category_csv_path)
 
         train()
         # print "cost time --> white_detail: %.2fs, VT_detail: %.2fs" % (time2 - time1, time3 - time2)
@@ -380,7 +391,7 @@ if __name__ == "__main__":
         dict_results[i] = dict_mcla
         libpefile.pecker_gmcla_free()
 
-        with open("/root/mcla2857/{}.txt".format(i), 'w') as f:
+        with open("/root/mcla0510/{}.txt".format(i), 'w') as f:
             json.dump(dict_results, f)
 
     cur.close()
