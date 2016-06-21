@@ -75,40 +75,6 @@ def generate_kvm_conf():
         conf.write(f)
 
 
-class GenIpMac:
-    def __init__(self):
-        VM = namedtuple('VM', ['type', 'mac', 'num', 'start_ip'])
-        self.vms = [
-            VM("win2k3-sp2s-",      "52-54-00-33-10-", 5, 20),
-            VM("winxp-sp2s-",       "52-54-00-33-11-", 5, 26),
-            VM("winxp-sp3s-",       "52-54-00-33-12-", 5, 31),
-            VM("win7-sp1-32s-",     "52-54-00-33-13-", 5, 36),
-            VM("win2k3-sp2l-",      "52-54-00-33-14-", 10, 50),
-            VM("winxpl-",           "52-54-00-33-15-", 10, 60),
-            VM("winxp-sp2l-",       "52-54-00-33-16-", 15, 70),
-            VM("winxp-sp3-03l-",    "52-54-00-33-17-", 15, 85),
-            VM("winxp-sp3-07l-",    "52-54-00-33-18-", 15, 100),
-            VM("winxp-sp3-10l-",    "52-54-00-33-19-", 30, 115),
-            VM("win7-32l-",         "52-54-00-33-1a-", 10, 145),
-            VM("win7-sp1-32l-",     "52-54-00-33-1b-", 30, 155),
-            VM("win7-sp1-64l-",     "52-54-00-33-1c-", 10, 185)
-        ]
-
-        self.DOMAIN_IP_MAC = []
-        self.prefix_ip = "10.14.24."
-
-    def gen_ip_mac(self):
-        for vm in VMS:
-            print "\nrem {0} ip-mac".format(vm.type)
-            for i in range(vm.num):
-                domain = vm.type + str(i)
-                mac = vm.mac + str(i + 10)
-                ip = self.prefix_ip + str(i + vm.start_ip)
-                self.domain_ip_mac.append((domain, ip, mac))
-                out = " ".join(["rem", domain, mac, ip])
-                print out
-
-
 class VmOperation(object):
     def __init__(self):
         self.prefix_ip = "10.14.24."
