@@ -43,6 +43,7 @@ STATUS_COMPLETED = 0x0003
 # Vm may start abnormally sometimes, it should try restart vm MAX_COUNT times.
 MAX_COUNT = 3
 VMS = []
+DOMAIN_IP_MAC = []
 
 
 def exec_log(cmd):
@@ -74,6 +75,40 @@ def generate_kvm_conf():
         conf.write(f)
 
 
+class GenIpMac:
+    def __init__(self):
+        VM = namedtuple('VM', ['type', 'mac', 'num', 'start_ip'])
+        self.vms = [
+            VM("win2k3-sp2s-",      "52-54-00-33-10-", 5, 20),
+            VM("winxp-sp2s-",       "52-54-00-33-11-", 5, 26),
+            VM("winxp-sp3s-",       "52-54-00-33-12-", 5, 31),
+            VM("win7-sp1-32s-",     "52-54-00-33-13-", 5, 36),
+            VM("win2k3-sp2l-",      "52-54-00-33-14-", 10, 50),
+            VM("winxpl-",           "52-54-00-33-15-", 10, 60),
+            VM("winxp-sp2l-",       "52-54-00-33-16-", 15, 70),
+            VM("winxp-sp3-03l-",    "52-54-00-33-17-", 15, 85),
+            VM("winxp-sp3-07l-",    "52-54-00-33-18-", 15, 100),
+            VM("winxp-sp3-10l-",    "52-54-00-33-19-", 30, 115),
+            VM("win7-32l-",         "52-54-00-33-1a-", 10, 145),
+            VM("win7-sp1-32l-",     "52-54-00-33-1b-", 30, 155),
+            VM("win7-sp1-64l-",     "52-54-00-33-1c-", 10, 185)
+        ]
+
+        self.DOMAIN_IP_MAC = []
+        self.prefix_ip = "10.14.24."
+
+    def gen_ip_mac(self):
+        for vm in VMS:
+            print "\nrem {0} ip-mac".format(vm.type)
+            for i in range(vm.num):
+                domain = vm.type + str(i)
+                mac = vm.mac + str(i + 10)
+                ip = self.prefix_ip + str(i + vm.start_ip)
+                self.domain_ip_mac.append((domain, ip, mac))
+                out = " ".join(["rem", domain, mac, ip])
+                print out
+
+
 class VmOperation(object):
     def __init__(self):
         self.prefix_ip = "10.14.24."
@@ -94,6 +129,16 @@ class VmOperation(object):
             INIT_VM("win7_sp1_32l_",     "52:54:00:33:1b:", 10, 155, "1048576", "fca2a5fd-f42c-4a62-53f0-9253bde31b"),
             INIT_VM("win7_sp1_64l_",     "52:54:00:33:1c:",  2, 185, "1572864", "fca2a5fd-f42c-4a62-53f0-9253bde31c")
         ]
+
+    def gen_ip_mac(self):
+        for vm in self.init_vms:
+            title = "\nrem {0} ip-mac".format(vm.type.replace('_', '-'))
+            DOMAIN_IP_MAC.append(title)
+            for i in range(vm.num):
+                domain = vm.type + str(i)
+                mac = vm.mac.replace(':', '-') + str(i + 10)
+                ip = self.prefix_ip + str(i + vm.start_ip)
+                DOMAIN_IP_MAC.append(" ".join(["rem", domain, mac, ip]))
 
     def get_vm_ip_by_mac(self):
         for vm in self.init_vms:
@@ -299,6 +344,7 @@ if __name__ == '__main__':
     parser.add_argument("--rm_vm", help="remove vm", action="store_true", required=False)
     parser.add_argument("--test_vm", help="test vm", action="store_true", required=False)
     parser.add_argument("--kvm_conf", help="generate kvm.conf", action="store_true", required=False)
+    parser.add_argument("--gen_rem", help="generate rem hostname ip mac", action="store_true", required=False)
     parser.add_argument("--domain", type=str, help="domain", action="store", required=False, default=None)
     parser.add_argument("-p", "--parallel", type=int, help="number of parallel threads", action="store", required=False,
                         default=4)
@@ -342,3 +388,9 @@ if __name__ == '__main__':
 
     if args.kvm_conf:
         generate_kvm_conf()
+
+    if args.gen_rem:
+        vm_object.gen_ip_mac()
+        for line in DOMAIN_IP_MAC:
+            print line
+
