@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from lxml import etree
 
 ua = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0"
-phone = "138xxxx"
+phone = "15951611383"
 
 valid_proxy = set()
 
@@ -188,6 +188,6 @@ if __name__ == "__main__":
     for i in range(5):
         for proxy in get_proxy():
             for para in request_data:
-                attack(para, proxy)
+                attack(para, None)
         # break
     print list(valid_proxy)
