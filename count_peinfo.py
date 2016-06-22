@@ -22,6 +22,10 @@ libpefile = cdll.LoadLibrary(so_path)
 MCLA_DIR = "/polydata/content/mcla/"
 CSV_PATH = os.path.join(MCLA_DIR, "data")
 
+SECTION_NAMES = [u'RT_CODE', u'RT_DATA', u'.nep', u'.rsrc', u'.bss', u'consent', u'RT_BSS', u'.reloc', u'PAGELK', u'.orpc', u'.idata', u'.rdata', u'FE_TEXT', u'.data', u'.pdata', u'.text', u'.tls', u'other']
+SECTION_NAMES = map(lambda x: x.strip('.').lower(), SECTION_NAMES)
+CATEGORIES = [u'White', u'Packed', u'Trojan', u'Ransom', u'Downloader', u'AdWare', u'PSW', u'low', u'GameThief', u'Virus', u'Backdoor', u'Spy', u'Clicker', u'Net-Worm', u'Dropper', u'Porn-Dialer', u'Worm', u'Banker', u'Hoax', u'WebToolbar', u'Rootkit', u'Email-Worm', u'Constructor', u'HackTool', u'Notifier', u'FakeAV', u'Exploit', u'P2P-Worm', u'Proxy', u'FraudTool', u'PSWTool', u'RiskTool', u'Dialer', u'Porn-Downloader', u'Monitor', u'VirTool', u'IM-Worm', u'RemoteAdmin', u'Porn-Tool', u'Mailfinder', u'IM-Flooder', u'Trojan-Downloader', u'Trojan-FakeAV', u'IM', u'NetTool', u'DDoS', u'Server-Proxy', u'Trojan-Spy', u'Email-Flooder', u'Client-SMTP', u'Client-IRC', u'Server-Web', u'SMS-Flooder', u'Flooder', u'Type_Win32', u'Server-FTP', u'Tool', u'IRC-Worm', u'Garbage', u'AVTool', u'DoS', u'SMS', u'CrackTool', u'AdTool']
+
 
 def norm_str(s):
     if s:
@@ -54,7 +58,7 @@ def count_peinfo(table, category=None):
             # virus_name = result[3]
             virus_name = "white" if table == "lvmeng_dll_exe_5m_white" else "black"
             sample_count += 1
-            if sample_count > 3000:
+            if sample_count > 1500:
                 break
 
             for tmp_dll, apis in r1.iteritems():   # type of apis is list
@@ -138,7 +142,7 @@ def count_sample_info(table, category=None):
     sample_count = 0
     rows = []
     for result in results:
-        row = [0] * len(DLL_API_FEATURES)
+        row = [0] * (len(DLL_API_FEATURES) + len(SECTION_NAMES))
         if result[1] and result[2]:
             r1 = json.loads(result[1])
             if r1.values()[0][0].find(',') != -1 or r1.values()[-1][0].find(',') != -1:
@@ -147,10 +151,10 @@ def count_sample_info(table, category=None):
             if table == "lvmeng_dll_exe_5m_white":
                 row[0] = 0
             else:
-                row[0] = 1
+                row[0] = CATEGORIES.index(category)
 
             sample_count += 1
-            if sample_count > 3000:
+            if sample_count > 1500:
                 break
 
             for tmp_dll, apis in r1.iteritems():   # type of apis is list
@@ -165,6 +169,15 @@ def count_sample_info(table, category=None):
                     index = DLL_API_FEATURES.index(dll)
                     row[index] = 1
 
+            r2 = json.loads(result[2])
+            for item in r2:
+                se = norm_str(item["Name"])
+                if se in SECTION_NAMES:
+                    index = SECTION_NAMES.index(se)
+                    row[index + len(DLL_API_FEATURES)] = 1
+                else:
+                    row[-1] += 1
+
             rows.append(row)
     return rows
 
@@ -172,7 +185,7 @@ def count_sample_info(table, category=None):
 def write_csv(rows, csv_file):
     csvfile = file(csv_file, 'wb')
     writer = csv.writer(csvfile)
-    writer.writerow(DLL_API_FEATURES)
+    writer.writerow(DLL_API_FEATURES + SECTION_NAMES)
     writer.writerows(rows)
     csvfile.close()
 
@@ -218,7 +231,7 @@ def train():
 
 
 def get_pe_info(target):
-    row = [0] * len(DLL_API_FEATURES)
+    row = [0] * (len(DLL_API_FEATURES) + len(SECTION_NAMES))
     try:
         pe = PE(target)
     except PEFormatError:
@@ -239,6 +252,14 @@ def get_pe_info(target):
                     row[index] = 1
     else:
         return None
+
+    for section in pe.sections:
+        se = norm_str(section.Name)
+        if se in SECTION_NAMES:
+            index = SECTION_NAMES.index(se)
+            row[index + len(DLL_API_FEATURES)] = 1
+        else:
+            row[-1] += 1
 
     # change list to string
     return ",".join(map(str, row))
@@ -264,7 +285,7 @@ def mcla_match(target):
     if not pe_info:
         return "no_pe_info"
 
-    p_category = libpefile.pecker_gmcla_group_predict_vec_data(pe_info, len(DLL_API_FEATURES))
+    p_category = libpefile.pecker_gmcla_group_predict_vec_data(pe_info, len(DLL_API_FEATURES) + len(SECTION_NAMES))
     if p_category:
         return string_at(p_category)
     else:
@@ -275,7 +296,7 @@ def mcla_match_count(target):
     pe_info = get_pe_info(target)
     if not pe_info:
         return -1
-    category_count = libpefile.pecker_gmcla_group_checkall_vec_data(pe_info, len(DLL_API_FEATURES))
+    category_count = libpefile.pecker_gmcla_group_checkall_vec_data(pe_info, len(DLL_API_FEATURES) + len(SECTION_NAMES))
     return category_count
 
 
@@ -301,6 +322,14 @@ def mcla_check_count(path):
     return results
 
 
+def mcla_match_count(target):
+    pe_info = get_pe_info(target)
+    if not pe_info:
+        return -1
+    category_count = libpefile.pecker_gmcla_group_checkall_vec_data(pe_info, len(DLL_API_FEATURES) + len(SECTION_NAMES))
+    return category_count
+
+
 if __name__ == "__main__":
     conn = MySQLdb.connect(db="malware_info", user="root", passwd="polydata", host="192.168.25.62", port=3306, charset="utf8")
     cur = conn.cursor()
@@ -320,31 +349,29 @@ if __name__ == "__main__":
     dll_feature = select(dll_info, 20, 0.5)
     api_feature = select(api_info, 35, 0.5)
 
-    api_threshes = range(35, 91, 5)
-    api_threshes = [35]
-    api_ratios = map(lambda x: x / 100.0, range(40, 51, 1))
+    api_threshes = range(5, 91, 5)
+    api_ratios = map(lambda x: x / 100.0, range(50, 61, 1))
     para_apis = [(i, j) for i in api_threshes for j in api_ratios]
     para_apis.reverse()
-    # para_apis = [(35, 0.5)]
+    para_apis = [(35, 0.5)]
     dict_results = {}
-    for i, para in enumerate(para_apis, 30):
+    for i, para in enumerate(para_apis, 1):
         api_feature = select(api_info, para[0], para[1])
 
         DLL_API_FEATURES = [u"lable"] + dll_feature + api_feature
         features = dll_feature + api_feature
-        print features, len(features)
+        print features
         # features = dll_feature + api_feature + SECTION_NAMES
 
         # CATEGORIES = ["White"] + count_category()
         white = count_sample_info("lvmeng_dll_exe_5m_white")
         shutil.rmtree(CSV_PATH, True)
         os.makedirs(CSV_PATH)
-        # for c in CATEGORIES[1:]:
-        c = "Black"
-        black = count_sample_info("VT_detail")
-        if len(black) > len(white) / 10:
-            category_csv_path = os.path.join(CSV_PATH, c + ".csv")
-            write_csv_ex(white + black, category_csv_path)
+        for c in CATEGORIES[1:]:
+            black = count_sample_info("VT_detail", c)
+            if len(black) > len(white) / 10:
+                category_csv_path = os.path.join(CSV_PATH, c + ".csv")
+                write_csv_ex(white + black, category_csv_path)
 
         train()
         # print "cost time --> white_detail: %.2fs, VT_detail: %.2fs" % (time2 - time1, time3 - time2)
