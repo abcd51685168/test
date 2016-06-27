@@ -39,7 +39,6 @@ INIT_VM = namedtuple('INIT_VM', ['type', 'mac', 'num', 'start_ip', 'memory', 'uu
 DETAIL_VM = namedtuple('DETAIL_VM', ['domain', 'ip', 'mac', 'memory', 'uuid', 'backup_qcow2'])
 TAIL = "> /dev/null"
 STATUS_INIT = 0x0001
-STATUS_COMPLETED = 0x0003
 # Vm may start abnormally sometimes, it should try restart vm MAX_COUNT times.
 MAX_COUNT = 3
 VMS = []
@@ -52,7 +51,7 @@ def exec_log(cmd):
 
 
 def generate_kvm_conf():
-    kvm_path = "/tmp/kvm.conf"
+    kvm_path = "/polyhawk/mds/analysis/sandbox/conf/kvm.conf"
     platform = "windows"
     conf.add_section("kvm")
     machines = []
@@ -81,22 +80,25 @@ class VmOperation(object):
         # num -- number of vms
         # start_ip -- start_ip of domain index and ip
         self.init_vms = [
-            INIT_VM("win2k3_sp2s_",      "52:54:00:33:10:",  2,  20,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde310"),
-            INIT_VM("winxp_sp2s_",       "52:54:00:33:11:",  2,  26,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde311"),
-            INIT_VM("winxp_sp3s_",       "52:54:00:33:12:",  2,  31,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde312"),
-            INIT_VM("win7_sp1_32s_",     "52:54:00:33:13:",  2,  36, "1048576", "fca2a5fd-f42c-4a62-53f0-9253bde313"),
-            INIT_VM("win2k3_sp2l_",      "52:54:00:33:14:",  2,  50,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde314"),
-            INIT_VM("winxpl_",           "52:54:00:33:15:",  2,  60,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde315"),
+            INIT_VM("win2k3_sp2s_",      "52:54:00:33:10:",  0,  20,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde310"),
+            INIT_VM("winxp_sp2s_",       "52:54:00:33:11:",  0,  26,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde311"),
+            INIT_VM("winxp_sp3s_",       "52:54:00:33:12:",  0,  31,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde312"),
+            INIT_VM("win7_sp1_32s_",     "52:54:00:33:13:",  0,  36, "1048576", "fca2a5fd-f42c-4a62-53f0-9253bde313"),
+
+            INIT_VM("winxp_sp3_07l_",    "52:54:00:33:18:",  2, 100,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde318"),
             INIT_VM("winxp_sp2l_",       "52:54:00:33:16:",  2,  70,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde316"),
             INIT_VM("winxp_sp3_03l_",    "52:54:00:33:17:",  2,  85,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde317"),
-            INIT_VM("winxp_sp3_07l_",    "52:54:00:33:18:",  2, 100,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde318"),
             INIT_VM("winxp_sp3_10l_",    "52:54:00:33:19:", 10, 115,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde319"),
             INIT_VM("win7_32l_",         "52:54:00:33:1a:",  2, 145, "1048576", "fca2a5fd-f42c-4a62-53f0-9253bde31a"),
             INIT_VM("win7_sp1_32l_",     "52:54:00:33:1b:", 10, 155, "1048576", "fca2a5fd-f42c-4a62-53f0-9253bde31b"),
-            INIT_VM("win7_sp1_64l_",     "52:54:00:33:1c:",  2, 185, "1572864", "fca2a5fd-f42c-4a62-53f0-9253bde31c")
+            INIT_VM("win2k3_sp2l_",      "52:54:00:33:14:",  2,  50,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde314"),
+            INIT_VM("winxpl_",           "52:54:00:33:15:",  2,  60,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde315"),
+
+            INIT_VM("win7_sp1_64l_",     "52:54:00:33:1c:",  0, 185, "1572864", "fca2a5fd-f42c-4a62-53f0-9253bde31c")
         ]
 
-    def gen_ip_mac(self):
+    # generate rem domain-ip-mac
+    def gen_rem_ip_mac(self):
         for vm in self.init_vms:
             title = "\nrem {0} ip-mac".format(vm.type.replace('_', '-'))
             DOMAIN_IP_MAC.append(title)
@@ -356,7 +358,7 @@ if __name__ == '__main__':
         generate_kvm_conf()
 
     if args.gen_rem:
-        vm_object.gen_ip_mac()
+        vm_object.gen_rem_ip_mac()
         for line in DOMAIN_IP_MAC:
             print line
 
