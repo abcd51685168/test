@@ -17,8 +17,6 @@ SHARES = dict_shares.keys()
 NAMES = dict_shares.values()
 lock = threading.Lock()
 
-# SHARES = ['300034']
-
 
 def get_start_date(day_delta):
     end_date = datetime.now()
@@ -27,38 +25,47 @@ def get_start_date(day_delta):
     return start
 
 start = get_start_date(DELTA_DATE + 1)
-print start
+# print start
 
 
 def decline(share):
-    data = ts.get_hist_data(share, start, '2016-06-24')
-    dict_data = data.to_dict('list')
+    data = ts.get_hist_data(share, start)
+    try:
+        dict_data = data.to_dict('list')
+    except AttributeError:
+        return
     volume = dict_data["volume"]
     open = dict_data["open"]
     close = dict_data["close"]
+    high = dict_data["high"]
+    low = dict_data["low"]
     p_change = dict_data["p_change"]
     case = ""
     # 不考虑停牌的情况，只需要最多四天的数据
-    if len(volume) < DELTA_DATE - 1:
+    if len(volume) < 2:
         return ""
 
-    # case2 前三天持续缩量下跌，且第一天是下跌，绿柱实体至少一个点，第二天也下跌，第四天放量翻红
-
-    if (open[3] - close[3]) / close[3] > 0.01:
-        if volume[3] > volume[2] > volume[1] < volume[0]:
-            if open[3] > close[3] > close[2] < open[2] and close[1] < open[2]\
-                    and close[0] > max(open[0], open[1], close[1]):
-                case = "case2"
-
-    # case1 最近三天持续缩量下跌，且第一天是下跌，绿柱实体至少一个点，且收盘价持续下降，第三天维持在
-    if (open[2] - close[2]) / close[2] > 0.01:
-        if volume[2] > volume[1] > volume[0]:
-            if open[2] > close[2] > close[1] < open[1] and close[0] < open[1]:
-                case = "case1"
+    # # case2 前三天持续缩量下跌，且第一天是下跌，绿柱实体至少一个点，第二天也下跌，第四天放量翻红
+    # if (open[3] - close[3]) / close[3] > 0.01:
+    #     if volume[3] > volume[2] > volume[1] < volume[0]:
+    #         if open[3] > close[3] > close[2] < open[2] and close[1] < open[2]\
+    #                 and close[0] > max(open[0], open[1], close[1]):
+    #             case = "case2"
+    #
+    # # case1 最近三天持续缩量下跌，且第一天是下跌，绿柱实体至少一个点，且收盘价持续下降，第三天维持在
+    # if (open[2] - close[2]) / close[2] > 0.01:
+    #     if volume[2] > volume[1] > volume[0]:
+    #         if open[2] > close[2] > close[1] < open[1] and close[0] < open[1]:
+    #             case = "case1"
 
     # 收盘连续两天跌停，加关注
     if p_change[0] < -LIMIT > p_change[1]:
         case = "case3"
+
+    # 一字板开板
+    # print p_change[1], high[1], low[1], high[0], low[0]
+    if p_change[1] > LIMIT and high[1] == low[1] and high[0] != low[0]:
+        case = "case4"
 
     lock.acquire()
     if case:
@@ -69,6 +76,7 @@ def decline(share):
     lock.release()
 
 
+# 弧形底
 def test(share):
     data = ts.get_hist_data(share, '2016-03-01')
     try:
@@ -97,6 +105,34 @@ def test(share):
                         dates.append(i)
         except:
             continue
+    lock.acquire()
+    if dates:
+        SHARE_DATE.append((share, dates))
+        # print share, dates
+    lock.release()
+
+
+# 一字板开板
+def test2(share):
+    data = ts.get_hist_data(share, '2016-03-01')
+    try:
+        dict_data = data.to_dict('list')
+        all_data = data.to_dict('dict')
+    except AttributeError:
+        return
+
+    dates = []
+    high = dict_data["high"]
+    low = dict_data["low"]
+    volume = dict_data["volume"]
+    for i in range(len(high) - 2):
+        if high[i+2] == low[i+2] and high[i+1] == low[i+1] and high[i+0] != low[i+0]:
+            volume_values = all_data["volume"].values()
+            if volume_values.count(volume[i]) == 1:
+                date = all_data["volume"].keys()[volume_values.index(volume[i])]
+                dates.append(date)
+                continue
+            dates.append(i)
     lock.acquire()
     if dates:
         SHARE_DATE.append((share, dates))
@@ -147,7 +183,7 @@ class Work(threading.Thread):
 if __name__ == '__main__':
 
     # print start, end
-    # shares = ["300034"]
+    # SHARES = ["300019"]
     select_shares = {"case1": [], "case2": []}
 
     t1 = time.time()
@@ -157,14 +193,19 @@ if __name__ == '__main__':
     print "cost {} seconds".format(t2 - t1)
     print PICK_SHARE
 
-    t1 = time.time()
-    work_manager = WorkManager(test)
-    work_manager.wait_allcomplete()
-    t2 = time.time()
-    print "cost {} seconds".format(t2 - t1)
+    # for share in SHARES:
+    #     decline(share)
+    # print PICK_SHARE
+
+    # t1 = time.time()
+    # work_manager = WorkManager(test2)
+    # work_manager.wait_allcomplete()
+    # t2 = time.time()
+    # print "cost {} seconds".format(t2 - t1)
     # with open("hist.txt", 'w') as f:
-    #     f.write(SHARE_DATE)
-    print len(SHARE_DATE)
+    #     for i in SHARE_DATE:
+    #         f.write(i[0] + " " + " ".join(i[1]) + "\n")
+    # print len(SHARE_DATE)
 
 #             open   high  close    low     volume  price_change  p_change  \
 # date
