@@ -13,6 +13,7 @@ import logging
 import logging.handlers
 from xml.etree.ElementTree import register_namespace, parse
 import ConfigParser
+import psutil
 
 conf = ConfigParser.ConfigParser()
 
@@ -39,6 +40,7 @@ INIT_VM = namedtuple('INIT_VM', ['type', 'mac', 'num', 'start_ip', 'memory', 'uu
 DETAIL_VM = namedtuple('DETAIL_VM', ['domain', 'ip', 'mac', 'memory', 'uuid', 'backup_qcow2'])
 TAIL = "> /dev/null"
 STATUS_INIT = 0x0001
+DEFAULT_CPU_COUNT = 24
 # Vm may start abnormally sometimes, it should try restart vm MAX_COUNT times.
 MAX_COUNT = 3
 VMS = []
@@ -85,10 +87,10 @@ class VmOperation(object):
             INIT_VM("winxp_sp3s_",       "52:54:00:33:12:",  0,  31,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde312"),
             INIT_VM("win7_sp1_32s_",     "52:54:00:33:13:",  0,  36, "1048576", "fca2a5fd-f42c-4a62-53f0-9253bde313"),
 
-            INIT_VM("winxp_sp3_07l_",    "52:54:00:33:18:",  2, 100,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde318"),
+            INIT_VM("winxp_sp3_10l_",    "52:54:00:33:19:", 10, 115,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde319"),
             INIT_VM("winxp_sp2l_",       "52:54:00:33:16:",  2,  70,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde316"),
             INIT_VM("winxp_sp3_03l_",    "52:54:00:33:17:",  2,  85,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde317"),
-            INIT_VM("winxp_sp3_10l_",    "52:54:00:33:19:", 10, 115,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde319"),
+            INIT_VM("winxp_sp3_07l_",    "52:54:00:33:18:",  2, 100,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde318"),
             INIT_VM("win7_32l_",         "52:54:00:33:1a:",  2, 145, "1048576", "fca2a5fd-f42c-4a62-53f0-9253bde31a"),
             INIT_VM("win7_sp1_32l_",     "52:54:00:33:1b:", 10, 155, "1048576", "fca2a5fd-f42c-4a62-53f0-9253bde31b"),
             INIT_VM("win2k3_sp2l_",      "52:54:00:33:14:",  2,  50,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde314"),
@@ -119,6 +121,10 @@ class VmOperation(object):
                 VMS.append(DETAIL_VM(domain, ip, mac, vm.memory, uuid, backup_qcow2))
 
     def define(self):
+        cpu_count = psutil.cpu_count()
+        if cpu_count != DEFAULT_CPU_COUNT:
+            cmd = "sed -i 's/1-{0}/1-{1}/g' `grep '1-{0}' -l *xml`".format(DEFAULT_CPU_COUNT - 1, cpu_count - 1)
+            os.system(cmd)
         for vm in VMS:
             exec_log("virsh define {}.xml {}".format(vm.domain, TAIL))
             exec_log("virsh snapshot-create {0} {0}_snapshot.xml --redefine --current".format(vm.domain, TAIL))
