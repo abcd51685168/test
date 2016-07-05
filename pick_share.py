@@ -16,6 +16,7 @@ dict_shares = all_shares.name.to_dict()
 SHARES = dict_shares.keys()
 NAMES = dict_shares.values()
 lock = threading.Lock()
+# SHARES = ["300410"]
 
 
 def get_start_date(day_delta):
@@ -57,6 +58,17 @@ def decline(share):
     #     if volume[2] > volume[1] > volume[0]:
     #         if open[2] > close[2] > close[1] < open[1] and close[0] < open[1]:
     #             case = "case1"
+
+    # # case1 双针探底
+    max1 = max(open[1], close[1])
+    max0 = max(open[0], close[0])
+    min1 = min(open[1], close[1])
+    min0 = min(open[0], close[0])
+    if high[1] >= max1 >= min1 > low[1] and high[0] >= max0 >= min0 > low[0]:
+        if open[0] > close[0] and (open[0] - close[0]) / max0 < 0.01:
+            if (min1 - low[1]) / low[1] > 0.02 or (min0 - low[0]) / low[0] > 0.02:
+                if volume[1] > volume[0]:
+                    case = "case1"
 
     # 收盘连续两天跌停，加关注
     if p_change[0] < -LIMIT > p_change[1]:
@@ -140,6 +152,44 @@ def test2(share):
     lock.release()
 
 
+# 双针探底 缩量
+def test3(share):
+    data = ts.get_hist_data(share, '2016-06-01')
+    try:
+        dict_data = data.to_dict('list')
+        all_data = data.to_dict('dict')
+    except AttributeError:
+        return
+
+    dates = []
+    high = dict_data["high"]
+    low = dict_data["low"]
+    open = dict_data["open"]
+    close = dict_data["close"]
+    volume = dict_data["volume"]
+    for i in range(len(high) - 2):
+        max1 = max(open[i + 1], close[i + 1])
+        max0 = max(open[i], close[i])
+        min1 = min(open[i + 1], close[i + 1])
+        min0 = min(open[i], close[i])
+        if high[i + 1] > max1 >= min1 > low[i + 1] and high[i] > max0 >= min0 > low[i]:
+            if abs(open[i + 1] - close[i + 1]) / max1 < 0.01 and abs(open[i] - close[i]) / max0 < 0.01:
+                if (min1 - low[i + 1]) / low[i + 1] > 0.01 and (min0 - low[i]) / low[i] > 0.01:
+                    if volume[i + 2] > volume[i + 1] > volume[i]:
+
+                        volume_values = all_data["volume"].values()
+                        if volume_values.count(volume[i]) == 1:
+                            date = all_data["volume"].keys()[volume_values.index(volume[i])]
+                            dates.append(date)
+                            continue
+                        dates.append(i)
+    lock.acquire()
+    if dates:
+        SHARE_DATE.append((share, dates))
+        # print share, dates
+    lock.release()
+
+
 class WorkManager(object):
     def __init__(self, func, thread_num=24):
         self.work_queue = Queue.Queue()
@@ -181,31 +231,15 @@ class Work(threading.Thread):
 
 
 if __name__ == '__main__':
-
     # print start, end
-    # SHARES = ["300019"]
-    select_shares = {"case1": [], "case2": []}
 
     t1 = time.time()
     work_manager = WorkManager(decline)
     work_manager.wait_allcomplete()
     t2 = time.time()
     print "cost {} seconds".format(t2 - t1)
+    print SHARE_DATE
     print PICK_SHARE
-
-    # for share in SHARES:
-    #     decline(share)
-    # print PICK_SHARE
-
-    # t1 = time.time()
-    # work_manager = WorkManager(test2)
-    # work_manager.wait_allcomplete()
-    # t2 = time.time()
-    # print "cost {} seconds".format(t2 - t1)
-    # with open("hist.txt", 'w') as f:
-    #     for i in SHARE_DATE:
-    #         f.write(i[0] + " " + " ".join(i[1]) + "\n")
-    # print len(SHARE_DATE)
 
 #             open   high  close    low     volume  price_change  p_change  \
 # date
