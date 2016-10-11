@@ -82,10 +82,10 @@ class VmOperation(object):
         # num -- number of vms
         # start_ip -- start_ip of domain index and ip
         self.init_vms = [
-            INIT_VM("win2k3_sp2s_",      "52:54:00:33:10:",  0,  20,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde310"),
-            INIT_VM("winxp_sp2s_",       "52:54:00:33:11:",  0,  26,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde311"),
-            INIT_VM("winxp_sp3s_",       "52:54:00:33:12:",  0,  31,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde312"),
-            INIT_VM("win7_sp1_32s_",     "52:54:00:33:13:",  0,  36, "1048576", "fca2a5fd-f42c-4a62-53f0-9253bde313"),
+            INIT_VM("win2k3_sp2s_",      "52:54:00:33:10:",  2,  20,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde310"),
+            INIT_VM("winxp_sp2s_",       "52:54:00:33:11:",  2,  26,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde311"),
+            INIT_VM("winxp_sp3s_",       "52:54:00:33:12:",  2,  31,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde312"),
+            INIT_VM("win7_sp1_32s_",     "52:54:00:33:13:",  2,  36, "1048576", "fca2a5fd-f42c-4a62-53f0-9253bde313"),
 
             INIT_VM("winxp_sp3_10l_",    "52:54:00:33:19:", 10, 115,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde319"),
             INIT_VM("winxp_sp2l_",       "52:54:00:33:16:",  2,  70,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde316"),
@@ -96,7 +96,7 @@ class VmOperation(object):
             INIT_VM("win2k3_sp2l_",      "52:54:00:33:14:",  2,  50,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde314"),
             INIT_VM("winxpl_",           "52:54:00:33:15:",  2,  60,  "524288", "fca2a5fd-f42c-4a62-53f0-9253bde315"),
 
-            INIT_VM("win7_sp1_64l_",     "52:54:00:33:1c:",  0, 185, "1572864", "fca2a5fd-f42c-4a62-53f0-9253bde31c")
+            INIT_VM("win7_sp1_64l_",     "52:54:00:33:1c:",  2, 185, "1572864", "fca2a5fd-f42c-4a62-53f0-9253bde31c")
         ]
 
     # generate rem domain-ip-mac
@@ -236,8 +236,9 @@ def start_vm(domain, ip, port=8000):
     return False
 
 
+
 def create_vm(para):
-    # args: ('win7_sp1_64l_1', '10.14.24.186', '52:54:00:33:1c:11', '1572864',
+    # args: ('win7_sp1_64l_1', '10.1slgfslgf4.24.186', '52:54:00:33:1c:11', '1572864',
     # 'fca2a5fd-f42c-4a62-53f0-9253bde31c11', 'win7_sp1_64l_backup.qcow2')
     domain, ip, mac, memory, uuid, backup_qcow2 = para
     create_qcow2_cmd = "qemu-img create -f qcow2 -b {} {}.qcow2 {}".format(backup_qcow2, domain, TAIL)

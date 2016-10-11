@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import xml.etree.ElementTree as ET
+from xml.etree.ElementTree import register_namespace, parse
+import pandas.core.frame.DataFrame
 
 if __name__ == "__main__":
     xml_file = r"C:\tmp\winxpl_0.xml"
-    ET.register_namespace("qemu", "http://libvirt.org/schemas/domain/qemu/1.0")
-    tree = ET.parse(xml_file)
+    register_namespace("qemu", "http://libvirt.org/schemas/domain/qemu/1.0")
+    tree = parse(xml_file)
     root = tree.getroot()
 
     root.find("name").text = "234"

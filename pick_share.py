@@ -16,7 +16,7 @@ dict_shares = all_shares.name.to_dict()
 SHARES = dict_shares.keys()
 NAMES = dict_shares.values()
 lock = threading.Lock()
-# SHARES = ["300410"]
+# SHARES = ["000426"]
 
 
 def get_start_date(day_delta):
@@ -60,15 +60,14 @@ def decline(share):
     #             case = "case1"
 
     # # case1 双针探底
-    max1 = max(open[1], close[1])
-    max0 = max(open[0], close[0])
-    min1 = min(open[1], close[1])
-    min0 = min(open[0], close[0])
-    if high[1] >= max1 >= min1 > low[1] and high[0] >= max0 >= min0 > low[0]:
-        if open[0] > close[0] and (open[0] - close[0]) / max0 < 0.01:
-            if (min1 - low[1]) / low[1] > 0.02 or (min0 - low[0]) / low[0] > 0.02:
-                if volume[1] > volume[0]:
-                    case = "case1"
+    def shizixing(high, low, open, close):
+        max0 = max(open, close)
+        min0 = min(open, close)
+        return True if (min0 - low) / low > 0.01 and (max0 - min0) / max0 < 0.02 else False
+
+    # if volume[1] > volume[0]:
+    #     if shizixing(high[0], low[0], open[0], close[0]) and shizixing(high[1], low[1], open[1], close[1]):
+    #         case = "case1"
 
     # 收盘连续两天跌停，加关注
     if p_change[0] < -LIMIT > p_change[1]:
@@ -76,7 +75,7 @@ def decline(share):
 
     # 一字板开板
     # print p_change[1], high[1], low[1], high[0], low[0]
-    if p_change[1] > LIMIT and high[1] == low[1] and high[0] != low[0]:
+    if p_change[1] > LIMIT and p_change[0] > LIMIT and high[1] == low[1] and high[0] == low[0]:
         case = "case4"
 
     lock.acquire()
@@ -137,8 +136,9 @@ def test2(share):
     high = dict_data["high"]
     low = dict_data["low"]
     volume = dict_data["volume"]
-    for i in range(len(high) - 2):
-        if high[i+2] == low[i+2] and high[i+1] == low[i+1] and high[i+0] != low[i+0]:
+    p_change = dict_data["p_change"]
+    for i in range(len(high) - 1):
+        if p_change[i+1] > LIMIT and p_change[i+0] > LIMIT and high[i+1] == low[i+1] and high[i+0] == low[i+0]:
             volume_values = all_data["volume"].values()
             if volume_values.count(volume[i]) == 1:
                 date = all_data["volume"].keys()[volume_values.index(volume[i])]
@@ -154,7 +154,7 @@ def test2(share):
 
 # 双针探底 缩量
 def test3(share):
-    data = ts.get_hist_data(share, '2016-06-01')
+    data = ts.get_hist_data(share, '2016-06-29', '2016-06-30')
     try:
         dict_data = data.to_dict('list')
         all_data = data.to_dict('dict')
@@ -239,6 +239,7 @@ if __name__ == '__main__':
     t2 = time.time()
     print "cost {} seconds".format(t2 - t1)
     print SHARE_DATE
+    # print [i[0] for i in SHARE_DATE]
     print PICK_SHARE
 
 #             open   high  close    low     volume  price_change  p_change  \
